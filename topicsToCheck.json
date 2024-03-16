@@ -1,0 +1,11 @@
+[
+    {
+        "ntfyURL":"https://ntfy.tuwy.win/wallapopNuevoSv",
+        "query":{"keywords":"mini pc ryzen","max_sale_price":"200","shipping":"true","order":"newest"}
+    },
+    {
+        "ntfyURL":"https://ntfy.tuwy.win/wallapopNuevoSv",
+        "query":{"keywords":"portatil pantalla rota","max_sale_price":"200","shipping":"true","order_by":"newest"}
+    }
+]
+
