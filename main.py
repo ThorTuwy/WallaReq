@@ -35,4 +35,4 @@ while True:
         if resaults:
             notification.sendPush(resaults,topic["ntfyURL"])
 
-    time.sleep(sleepTime+random.randint(sleepTime*(10/100), sleepTime*(20/100)))
+    time.sleep(sleepTime+random.randint( round(sleepTime*(10/100)), round(sleepTime*(20/100)) ))
