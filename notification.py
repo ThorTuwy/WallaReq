@@ -10,17 +10,19 @@ def sendNotifications(data,notificationMethods):
 
 def ntfySendPush(data,ntfyNotifications):
     title,description,price,link_producto,imageSrc=data
-
+ 
     for noti in ntfyNotifications:
-
         
-        requests.post(noti["ntfyURL"],
-            data=description,
+            print(description)
+            requests.post(noti["ntfyURL"],
+            data="hola hola",
             headers={
-                "Title": f"{price} € | {title}".encode('utf-8'),
-                "Click": link_producto,
-                "Attach": imageSrc,
-                "Authorization": f"Basic {noti["ntfyToken"]}"
+                "title": f"{price} € | {title}".encode('utf-8'),
+                "click": link_producto,
+                "attach": imageSrc,
+                "authorization": f"Basic {noti["ntfyToken"]}"
             }
         )
 
+if __name__ == "__main__":
+   ntfySendPush(("test","test","-1","https://ntfy.tuwy.win/test","https://www.adams.es/blogs/alumno/examen-tipo-test-las-mejores-tecnicas-para-superarlo-con-exito/"),[{"ntfyURL":"https://ntfy.tuwy.win/test","ntfyToken":"***REMOVED***"}])

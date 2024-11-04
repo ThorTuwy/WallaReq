@@ -1,11 +1,11 @@
 [
     {
         "ntfy":"wallapopNuevoSv",
-        "query":{"keywords":"mini pc ryzen","max_sale_price":"200","shipping":"true","order":"newest"}
+        "query":{"keywords":"portatil pantalla rota","order_by":"newest","is_shippable":"true","max_sale_price":"100"}
     },
     {
         "ntfy":"wallapopNuevoSv",
-        "query":{"keywords":"portatil pantalla rota","max_sale_price":"200","shipping":"true","order_by":"newest"}
+        "query":{"keywords":"portatil pantalla rota","max_sale_price":"200","is_shippable":"true","order_by":"newest"}
     }
 ]
 

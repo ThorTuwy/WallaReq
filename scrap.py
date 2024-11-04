@@ -20,23 +20,27 @@ with open('uploadAlredy.json') as f:
 
 url = "https://api.wallapop.com/api/v3/general/search"
 def queryApi(parameters):
+
     conn = http.client.HTTPSConnection("api.wallapop.com")
 
     query_params = urllib.parse.urlencode(parameters)
-    print(query_params)
-    url = f"/api/v3/general/search?{query_params}"
+    url = f"/api/v3/search?source=quick_filters&{query_params}"
     
 
-    conn.request("GET", url)
+    payload = ""
+
+    headers = { 'X-DeviceOS': "0" }
+
+
+    conn.request("GET", url, payload, headers)
     res = conn.getresponse()
     data = res.read()
 
-    return json.loads(data.decode("utf-8"))["search_objects"]
+    return json.loads(data.decode("utf-8"))["data"]["section"]["payload"]["items"]
 
 
 def check(keywords):
     resaults=[]
-
     item=queryApi(keywords)[0]
 
     
@@ -48,8 +52,8 @@ def check(keywords):
 
         title=item["title"]
         description=item["description"]
-        price=item["price"]
-        imageSrc=item["images"][0]["original"]
+        price=item["price"]["amount"]
+        imageSrc=item["images"][0]["urls"]["medium"]
 
         with open("uploadAlredy.json", "w") as f:
             json.dump(uploadAlredy, f)
