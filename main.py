@@ -41,7 +41,7 @@ while True:
 
             if isinstance(topic["ntfy"],str):
                 ntfyChannels=[topic["ntfy"]]
-            elif not isinstance(topic["ntfy"],(array,tuple)):
+            elif not isinstance(topic["ntfy"],(list,tuple)):
                 raise Exception("Invalid ntfy value in topicsToCheck.json")
 
             for channel in ntfyChannels:
