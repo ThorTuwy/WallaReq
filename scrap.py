@@ -23,6 +23,7 @@ def queryApi(parameters):
     conn = http.client.HTTPSConnection("api.wallapop.com")
 
     query_params = urllib.parse.urlencode(parameters)
+    print(query_params)
     url = f"/api/v3/general/search?{query_params}"
     
 

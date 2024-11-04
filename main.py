@@ -29,10 +29,31 @@ while True:
 
     for topic in topicsToCheck:
         resaults=[]
-
         resaults=scrap.check(topic["query"])
 
-        if resaults:
-            notification.sendPush(resaults,topic["ntfyURL"])
+        #notificationMethods[String]=[{data to process the noti},...]
+        notificationMethods={}
+        if topic["ntfy"]:
+            
+            notificationMethods["ntfy"]=[]
+                        
+            ntfyChannels=topic["ntfy"]
 
+            if isinstance(topic["ntfy"],str):
+                ntfyChannels=[topic["ntfy"]]
+            elif not isinstance(topic["ntfy"],(array,tuple)):
+                raise Exception("Invalid ntfy value in topicsToCheck.json")
+
+            for channel in ntfyChannels:
+
+                notificationMethods["ntfy"].append({
+                    "ntfyURL":f"{os.getenv('NTFY_DOMAIN')}/{channel}",
+                    "ntfyToken":os.getenv('NTFY_TOKEN')
+                })
+        
+
+        if resaults:
+            notification.sendNotifications(resaults,notificationMethods)
+
+    #Sleep: sleepTime+sleepTime[10%,20%]
     time.sleep(sleepTime+random.randint( round(sleepTime*(10/100)), round(sleepTime*(20/100)) ))
