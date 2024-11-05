@@ -117,3 +117,73 @@ def update_item(item: Config):
     
     with open('./data/configs.json',"w") as f:
         json.dump(configs, f, sort_keys=True,indent=4)
+
+
+
+
+#Topics related API
+
+@app.get("/topics")
+def getTopics():
+
+    with open('./data/topicsToCheck.json') as f:
+        topics=json.load(f)
+    
+    return JSONResponse(content=topics) 
+
+@app.get("/topics/{topic}")
+def getTopic(topic:str):
+
+    with open('./data/topicsToCheck.json') as f:
+        topics=json.load(f)
+    
+    return JSONResponse(content=topics[topic])
+
+
+class queryModel(BaseModel):
+    keywords: str
+    order_by: str
+    is_shippable: str
+    max_sale_price: str
+
+class topicModel(BaseModel):
+    name: str
+    querys: list[queryModel]
+    ntfy: list[str]
+
+@app.put("/topics/add")
+def update_item(topic: topicModel):
+    
+    newTopic = jsonable_encoder(topic)
+    name=newTopic["name"]
+    del newTopic["name"]
+
+    with open('./data/topicsToCheck.json') as f:
+        topics=json.load(f)
+    
+    topics[name]=newTopic
+
+    with open('./data/topicsToCheck.json',"w") as f:
+        json.dump(topics, f, sort_keys=True,indent=4)
+
+@app.put("/topics/remove")
+def update_item(name: str):
+
+    with open('./data/topicsToCheck.json') as f:
+        topics=json.load(f)
+    
+    del topics[name]
+
+    with open('./data/topicsToCheck.json',"w") as f:
+        json.dump(topics, f, sort_keys=True,indent=4)
+
+@app.put("/uploadAlready/remove")
+def getTopic(topicName:str):
+  
+    with open('./data/uploadAlredy.json') as f:
+        topics=json.load(f)
+    
+    del topics[topicName]
+
+    with open('./data/uploadAlredy.json',"w") as f:
+        json.dump(topics, f, sort_keys=True,indent=4)

@@ -1,10 +1,15 @@
 {
-    "Portatil con pantalla rota":{
-        "querys":[
-            {"keywords":"portatil pantalla rota","order_by":"newest","is_shippable":"true","max_sale_price":"100"},
-            {"keywords":"psvita","order_by":"newest","is_shippable":"true","max_sale_price":"100"}
+    "string": {
+        "ntfy": [
+            "string"
         ],
-        "ntfy":["wallapopNuevoSv"]
+        "querys": [
+            {
+                "is_shippable": "string",
+                "keywords": "string",
+                "max_sale_price": "string",
+                "order_by": "string"
+            }
+        ]
     }
 }
-
