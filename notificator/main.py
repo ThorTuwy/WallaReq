@@ -16,10 +16,6 @@ sleepTime=configs["general"]["sleepTime"]*60
 with open('./data/topicsToCheck.json') as f:
     topicsToCheck=json.load(f)
 
-
-
-
-
 def ntfyToMethods(ntfyChannels):
     if not configs["ntfy"]:
         raise Exception("Ntfy is not configured (configs.json)")
@@ -48,21 +44,31 @@ def main():
     notificationMethods={}
     for topic in topicsToCheck:
         
+        #Cheking querys
+        if isinstance(topic["querys"],str):
+            topic["querys"]=[topic["querys"]]
+        elif not isinstance(topic["querys"],(list,tuple)):
+            raise Exception("Invalid querys value (topicsToCheck.json)")
 
+
+        #Notifications Methods maker
         topicNotificationMethods={}
 
         if topic["ntfy"]:
             topicNotificationMethods["ntfy"]=ntfyToMethods(topic["ntfy"])
 
+
+        #...
             
         
         notificationMethods[topic["name"]]=topicNotificationMethods
     
     while True:
         for topic in topicsToCheck:
-            resaults=scrap.check(topic["query"])
-            if resaults:
-                notification.sendNotifications(resaults,notificationMethods[topic["name"]])
+            for query in topic["querys"]:
+                resaults=scrap.check(query)
+                if resaults:
+                    notification.sendNotifications(resaults,notificationMethods[topic["name"]])
         
         currentSleepTime=sleepTime+random.randint( round(sleepTime*(10/100)), round(sleepTime*(20/100)) )
         print(f"Cheking finish, now the program will wait: {currentSleepTime}s")
