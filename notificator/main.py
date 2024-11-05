@@ -1,5 +1,6 @@
-import scrap,notification,random,time,os,json,datetime
-
+import notificator.scrap as scrap
+import notificator.notification as notification
+import random,time,os,json,datetime
 #Configs
 with open('./data/configs.json') as f:
     configs=json.load(f)
@@ -74,9 +75,6 @@ def main():
         print(f"Cheking finish, now the program will wait: {currentSleepTime}s")
         time.sleep(currentSleepTime)
         
-
-if __name__ == "__main__":
-    main()
 
 
 
