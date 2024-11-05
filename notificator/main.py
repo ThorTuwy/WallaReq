@@ -43,8 +43,7 @@ def ntfyToMethods(ntfyChannels):
 def main():
     #Preparing all notifications methods
     notificationMethods={}
-    for topic in topicsToCheck:
-        
+    for name,topic in topicsToCheck.items():
         #Cheking querys
         if isinstance(topic["querys"],str):
             topic["querys"]=[topic["querys"]]
@@ -62,14 +61,14 @@ def main():
         #...
             
         
-        notificationMethods[topic["name"]]=topicNotificationMethods
+        notificationMethods[name]=topicNotificationMethods
     
     while True:
-        for topic in topicsToCheck:
+        for name,topic in topicsToCheck.items():
             for parameters in topic["querys"]:
-                resaults=scrap.check(topic["name"],parameters)
+                resaults=scrap.check(name,parameters)
                 if resaults:
-                    notification.sendNotifications(resaults,notificationMethods[topic["name"]])
+                    notification.sendNotifications(resaults,notificationMethods[name])
         
         currentSleepTime=sleepTime+random.randint( round(sleepTime*(10/100)), round(sleepTime*(20/100)) )
         print(f"Cheking finish, now the program will wait: {currentSleepTime}s")
