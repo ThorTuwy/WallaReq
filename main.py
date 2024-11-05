@@ -55,5 +55,5 @@ while True:
         if resaults:
             notification.sendNotifications(resaults,notificationMethods)
 
-    #Sleep: sleepTime+sleepTime[10%,20%]
+    
     time.sleep(sleepTime+random.randint( round(sleepTime*(10/100)), round(sleepTime*(20/100)) ))

@@ -13,9 +13,8 @@ def ntfySendPush(data,ntfyNotifications):
  
     for noti in ntfyNotifications:
         
-            print(description)
             requests.post(noti["ntfyURL"],
-            data="hola hola",
+            data=description.encode('utf-8'),
             headers={
                 "title": f"{price} € | {title}".encode('utf-8'),
                 "click": link_producto,
