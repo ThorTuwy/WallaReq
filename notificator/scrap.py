@@ -2,11 +2,11 @@ import http.client
 import urllib.parse
 import unidecode,json,random,os
 
-if not os.path.exists('uploadAlredy.json'):
+if not os.path.exists('./data/uploadAlredy.json'):
     with open('uploadAlredy.json', "w") as f:
         json.dump([], f)
 
-with open('uploadAlredy.json') as f:
+with open('./data/uploadAlredy.json') as f:
     uploadAlredy=json.load(f)
 
 
@@ -55,7 +55,7 @@ def check(keywords):
         price=item["price"]["amount"]
         imageSrc=item["images"][0]["urls"]["medium"]
 
-        with open("uploadAlredy.json", "w") as f:
+        with open("./data/uploadAlredy.json", "w") as f:
             json.dump(uploadAlredy, f)
         
         resaults=[title,description,price,link_producto,imageSrc]

@@ -1,0 +1,8 @@
+[
+    {
+        "name":"Portatil con pantalla rota",
+        "query":{"keywords":"portatil pantalla rota","order_by":"newest","is_shippable":"true","max_sale_price":"100"},
+        "ntfy":["wallapopNuevoSv"]
+    }
+]
+

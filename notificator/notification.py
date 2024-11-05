@@ -10,9 +10,8 @@ def sendNotifications(data,notificationMethods):
 
 def ntfySendPush(data,ntfyNotifications):
     title,description,price,link_producto,imageSrc=data
- 
+    
     for noti in ntfyNotifications:
-        
             requests.post(noti["ntfyURL"],
             data=description.encode('utf-8'),
             headers={
