@@ -39,9 +39,9 @@ def queryApi(parameters):
     return json.loads(data.decode("utf-8"))["data"]["section"]["payload"]["items"]
 
 
-def check(keywords):
+def check(parameters):
     resaults=[]
-    item=queryApi(keywords)[0]
+    item=queryApi(parameters)[0]
 
     
 
