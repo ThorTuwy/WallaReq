@@ -46,4 +46,4 @@ def restartNoti():
 
 @app.get("/configs")
 def changeConfigs():
-    
+    pass
