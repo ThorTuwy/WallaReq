@@ -66,7 +66,7 @@ def main():
     while True:
         for topic in topicsToCheck:
             for parameters in topic["querys"]:
-                resaults=scrap.check(parameters)
+                resaults=scrap.check(topic["name"],parameters)
                 if resaults:
                     notification.sendNotifications(resaults,notificationMethods[topic["name"]])
         

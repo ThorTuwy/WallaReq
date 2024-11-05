@@ -2,12 +2,15 @@ import http.client
 import urllib.parse
 import unidecode,json,random,os
 
-if not os.path.exists('./data/uploadAlredy.json'):
-    with open('uploadAlredy.json', "w") as f:
-        json.dump([], f)
 
-with open('./data/uploadAlredy.json') as f:
-    uploadAlredy=json.load(f)
+
+try:
+    with open('./data/uploadAlredy.json') as f:
+        uploadAlredy=json.load(f)
+except:
+    uploadAlredy={}
+    with open('./data/uploadAlredy.json',"w") as f:
+        json.dump({}, f)
 
 
 
@@ -29,6 +32,7 @@ def queryApi(parameters):
 
     payload = ""
 
+    #Dont ask me why but this header is nedded for the API to repond lol
     headers = { 'X-DeviceOS': "0" }
 
 
@@ -39,7 +43,12 @@ def queryApi(parameters):
     return json.loads(data.decode("utf-8"))["data"]["section"]["payload"]["items"]
 
 
-def check(parameters):
+def check(topicName,parameters):
+
+    uploadAlredy.setdefault(topicName, [])
+
+    
+
     resaults=[]
     item=queryApi(parameters)[0]
 
@@ -47,16 +56,20 @@ def check(parameters):
 
     link_producto="https://es.wallapop.com/item/"+item["web_slug"]
     
-    if not link_producto in uploadAlredy:
-        uploadAlredy.append(link_producto)
+    
+    
+    if not link_producto in uploadAlredy[topicName]:
+        uploadAlredy[topicName].append(link_producto)
+
+        with open("./data/uploadAlredy.json", "w") as f:
+            json.dump(uploadAlredy, f)
 
         title=item["title"]
         description=item["description"]
         price=item["price"]["amount"]
         imageSrc=item["images"][0]["urls"]["medium"]
 
-        with open("./data/uploadAlredy.json", "w") as f:
-            json.dump(uploadAlredy, f)
+        
         
         resaults=[title,description,price,link_producto,imageSrc]
     
