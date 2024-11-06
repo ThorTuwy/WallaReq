@@ -73,5 +73,5 @@ def check(topicName,parameters):
         
         resaults=[title,description,price,link_producto,imageSrc]
     
-    return resaults
+    return [resaults]
 

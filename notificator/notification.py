@@ -3,10 +3,12 @@ import requests,base64,os
 from dotenv import load_dotenv
 load_dotenv()
 
-def sendNotifications(data,notificationMethods):
+def sendNotifications(resaults,notificationMethods):
     #notificationMethods[String]=[{data to process the noti},...]
-    if "ntfy" in notificationMethods:
-        ntfySendPush(data,notificationMethods["ntfy"])
+
+    for data in resaults:
+        if "ntfy" in notificationMethods:
+            ntfySendPush(data,notificationMethods["ntfy"])
 
 def ntfySendPush(data,ntfyNotifications):
     title,description,price,link_producto,imageSrc=data

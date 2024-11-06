@@ -177,9 +177,10 @@ def update_item(name: str):
     with open('./data/topicsToCheck.json',"w") as f:
         json.dump(topics, f, sort_keys=True,indent=4)
 
+
 @app.put("/uploadAlready/remove")
 def getTopic(topicName:str):
-  
+    
     with open('./data/uploadAlredy.json') as f:
         topics=json.load(f)
     
