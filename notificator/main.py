@@ -64,9 +64,13 @@ def main():
         notificationMethods[name]=topicNotificationMethods
     
     while True:
+        
         for name,topic in topicsToCheck.items():
+            lastElement=False
             for parameters in topic["querys"]:
-                resaults=scrap.check(name,parameters)
+                if parameters==topic["querys"][-1]:
+                    lastElement=True
+                resaults=scrap.check(name,parameters,lastElement)
                 if resaults:
                     notification.sendNotifications(resaults,notificationMethods[name])
         

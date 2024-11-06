@@ -1,7 +1,7 @@
 import http.client
 import urllib.parse
-import unidecode,json,random,os
-
+import unidecode,json,random,os,time
+import datetime
 
 
 try:
@@ -43,35 +43,37 @@ def queryApi(parameters):
     return json.loads(data.decode("utf-8"))["data"]["section"]["payload"]["items"]
 
 
-def check(topicName,parameters):
+def check(topicName,parameters,lastQuery):
 
-    uploadAlredy.setdefault(topicName, [])
+    #Defaults the time to search with 10m before the actual time (UNIX ms)
+    uploadAlredy.setdefault(topicName, int(((time.time())-(10*60))*1000))
 
     
 
     resaults=[]
-    item=queryApi(parameters)[0]
+    products=queryApi(parameters)
+    resaults=[]
 
-    
-
-    link_producto="https://es.wallapop.com/item/"+item["web_slug"]
-    
-    
-    
-    if not link_producto in uploadAlredy[topicName]:
-        uploadAlredy[topicName].append(link_producto)
-
-        with open("./data/uploadAlredy.json", "w") as f:
-            json.dump(uploadAlredy, f)
-
-        title=item["title"]
-        description=item["description"]
-        price=item["price"]["amount"]
-        imageSrc=item["images"][0]["urls"]["medium"]
+    for product in products:
+        
+        if product["modified_at"]<=uploadAlredy[topicName]:
+            continue
 
         
         
-        resaults=[title,description,price,link_producto,imageSrc]
+        link_producto="https://es.wallapop.com/item/"+product["web_slug"]
+        title=product["title"]
+        description=product["description"]
+        price=product["price"]["amount"]
+        imageSrc=product["images"][0]["urls"]["medium"]
+
+        resaults.append((title,description,price,link_producto,imageSrc))
+
+    if lastQuery:
+        uploadAlredy[topicName]=int((time.time())*1000)
     
-    return [resaults]
+    with open("./data/uploadAlredy.json", "w") as f:
+        json.dump(uploadAlredy, f)
+    
+    return resaults
 
