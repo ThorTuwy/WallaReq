@@ -1,1 +1,0 @@
-python -m fastapi dev Manager-API.py

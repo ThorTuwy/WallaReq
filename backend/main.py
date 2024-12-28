@@ -1,11 +1,11 @@
 import notificator.main as notificator
 
-from typing import Union
-
 from fastapi import FastAPI
 from fastapi import HTTPException
 from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse,RedirectResponse
+from fastapi.middleware.cors import CORSMiddleware
+
 
 from multiprocessing import Process
 
@@ -13,15 +13,10 @@ import json
 
 from pydantic import BaseModel
 
-from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-
-origins = [
-    "http://localhost:4321",
-    "http://localhost:3000",
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -30,6 +25,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
 
 
 notificatorProcess=None
@@ -76,7 +73,15 @@ def recursiveJSONMerger(main, mew):
 
 #Notificator related API
 
-@app.get("/start")
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
+
+
+@app.get("/")
+def startNoti():
+    return RedirectResponse("/index.html")
+
+@app.get("/API/start")
 def startNoti():
     global notificatorProcess
 
@@ -86,7 +91,7 @@ def startNoti():
     notificatorProcess = Process(target = notificator.main)
     notificatorProcess.start()
 
-@app.get("/stop")
+@app.get("/API/stop")
 def stopNoti():
     global notificatorProcess
 
@@ -97,20 +102,20 @@ def stopNoti():
 
     notificatorProcess=None
 
-@app.get("/status")
+@app.get("/API/status")
 def stopNoti():
     global notificatorProcess
 
     return notificatorProcess!=None
 
-@app.get("/restart")
+@app.get("/API/restart")
 def restartNoti():
     stopNoti()
     startNoti()
     
 
 
-@app.get("/config")
+@app.get("/API/config")
 def changeConfigs():
 
     #For security reasons, this would not return token and other sensitive data
@@ -142,7 +147,7 @@ class Config(BaseModel):
     ntfy: ntfy
 
 
-@app.put("/config")
+@app.put("/API/config")
 def update_item(item: Config):
     
     with open('./data/configs.json') as f:
@@ -163,7 +168,7 @@ def update_item(item: Config):
 
 #Topics related API
 
-@app.get("/topics")
+@app.get("/API/topics")
 def getTopics():
 
     with open('./data/topicsToCheck.json') as f:
@@ -175,7 +180,7 @@ def getTopics():
     
     return JSONResponse(content=resTopics) 
 
-@app.get("/topics/{topic}")
+@app.get("/API/topics/{topic}")
 def getTopic(topic:str):
 
     with open('./data/topicsToCheck.json') as f:
@@ -204,7 +209,7 @@ class topicModel(BaseModel):
 
 
 
-@app.put("/topics/update")
+@app.put("/API/topics/update")
 def update_item(topic: topicModel):
     
     newTopic = jsonable_encoder(topic)
@@ -226,7 +231,7 @@ def update_item(topic: topicModel):
     with open('./data/topicsToCheck.json',"w") as f:
         json.dump(topics, f, sort_keys=True,indent=4)
 
-@app.put("/topics/add")
+@app.put("/API/topics/add")
 def update_item(name: str):
     name=name.lower()
     with open('./data/topicsToCheck.json') as f:
@@ -237,7 +242,7 @@ def update_item(name: str):
     with open('./data/topicsToCheck.json',"w") as f:
         json.dump(topics, f, sort_keys=True,indent=4)
 
-@app.put("/topics/remove")
+@app.put("/API/topics/remove")
 def update_item(name: str):
 
     with open('./data/topicsToCheck.json') as f:
@@ -249,7 +254,7 @@ def update_item(name: str):
         json.dump(topics, f, sort_keys=True,indent=4)
 
 
-@app.put("/uploadAlready/remove")
+@app.put("/API/uploadAlready/remove")
 def getTopic(topicName:str):
     
     with open('./data/uploadAlredy.json') as f:
@@ -260,3 +265,6 @@ def getTopic(topicName:str):
 
     with open('./data/uploadAlredy.json',"w") as f:
         json.dump(topics, f, sort_keys=True,indent=4)
+
+
+app.mount("/", StaticFiles(directory="dist"), name="static")

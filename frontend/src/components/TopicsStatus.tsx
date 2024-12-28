@@ -9,7 +9,7 @@ export default function TopicsStatus(props: any) {
   const { topics, setTopics,topicNameSignal,setTopicName } = getTopics()!;
   
   const fetchUser = async () => {
-    const response = await fetch("http://127.0.0.1:8000/topics");
+    const response = await fetch("http://127.0.0.1:8000/API/topics");
     const topics = await response.json();
 
     const topicsKeys: string[] = Object.keys(topics);
@@ -34,7 +34,7 @@ export default function TopicsStatus(props: any) {
   const click = async (topicName: string) => {
     console.log(`Clicked topic: ${topicName}`);
 
-	  const response = await fetch(`http://127.0.0.1:8000/topics/${topicName}`);
+	  const response = await fetch(`http://127.0.0.1:8000/API/topics/${topicName}`);
     
     let topicInfo = await response.json();
 
@@ -58,7 +58,7 @@ export default function TopicsStatus(props: any) {
       index++;
     }
 
-    const response = await fetch(`http://127.0.0.1:8000/topics/add?name=${topicName}`, {
+    const response = await fetch(`http://127.0.0.1:8000/API/topics/add?name=${topicName}`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',

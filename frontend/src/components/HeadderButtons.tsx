@@ -16,7 +16,7 @@ export default function headderButtons() {
   const { config, setConfig } = getConfig()!;  
   
   const startSwichFetch = async () => {
-    const response = await fetch("http://127.0.0.1:8000/status");
+    const response = await fetch("http://127.0.0.1:8000/API/status");
     const active = await response.text();
 
     return active=="true"
@@ -31,7 +31,7 @@ export default function headderButtons() {
 
     console.log(`Clicked in config`);
 
-	  const response = await fetch(`http://127.0.0.1:8000/config`);
+	  const response = await fetch(`http://127.0.0.1:8000/API/config`);
     
     let topicInfo:configType = await response.json();
 
@@ -44,10 +44,10 @@ export default function headderButtons() {
     console.log(`Swich toogle`);
 
 	  if (switchStatus()){
-      await fetch(`http://127.0.0.1:8000/stop`)
+      await fetch(`http://127.0.0.1:8000/API/stop`)
     }
     else{
-      await fetch(`http://127.0.0.1:8000/start`)
+      await fetch(`http://127.0.0.1:8000/API/start`)
     }
     refetch()
   };
