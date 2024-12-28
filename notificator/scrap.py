@@ -19,16 +19,15 @@ except:
 
 
 
-
-
 url = "https://api.wallapop.com/api/v3/general/search"
 def queryApi(parameters):
 
     conn = http.client.HTTPSConnection("api.wallapop.com")
 
     query_params = urllib.parse.urlencode(parameters)
-    url = f"/api/v3/search?source=quick_filters&{query_params}"
     
+    url = f"/api/v3/search?source=quick_filters&{query_params}"
+    print(url)
 
     payload = ""
 
@@ -43,19 +42,15 @@ def queryApi(parameters):
     return json.loads(data.decode("utf-8"))["data"]["section"]["payload"]["items"]
 
 
-def check(topicName,parameters,lastQuery):
+def check(topicName,parameters):
 
-    #Defaults the time to search with 10m before the actual time (UNIX ms)
+    #Defaults the first time to search with 10m before the actual time (UNIX ms)
     uploadAlredy.setdefault(topicName, int(((time.time())-(10*60))*1000))
-
-    
 
     resaults=[]
     products=queryApi(parameters)
-    resaults=[]
-
     for product in products:
-        
+
         if product["modified_at"]<=uploadAlredy[topicName]:
             continue
 
@@ -68,12 +63,12 @@ def check(topicName,parameters,lastQuery):
         imageSrc=product["images"][0]["urls"]["medium"]
 
         resaults.append((title,description,price,link_producto,imageSrc))
-
-    if lastQuery:
-        uploadAlredy[topicName]=int((time.time())*1000)
-    
-    with open("./data/uploadAlredy.json", "w") as f:
-        json.dump(uploadAlredy, f)
     
     return resaults
 
+def restartTopicTime(topicName):
+
+    uploadAlredy[topicName]=int((time.time())*1000)
+
+    with open("./data/uploadAlredy.json", "w") as f:
+        json.dump(uploadAlredy, f)

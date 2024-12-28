@@ -1,6 +1,10 @@
 import notificator.scrap as scrap
-import notificator.notification as notification
-import random,time,os,json,datetime
+from notificator.notification import notificationManager
+
+import random,time,json
+
+
+
 #Configs
 with open('./data/configs.json') as f:
     configs=json.load(f)
@@ -10,40 +14,29 @@ if not configs["general"]["sleepTime"]:
 elif not isinstance(configs["general"]["sleepTime"],(int,float)):
     raise Exception("SleepTime is not a number (configs.json)")
 
-sleepTime=configs["general"]["sleepTime"]*60
+sleepTime=configs["general"]["sleepTime"]
 
 
 
 with open('./data/topicsToCheck.json') as f:
-    topicsToCheck=json.load(f)
+    topics=json.load(f)
 
-def ntfyToMethods(ntfyChannels):
-    if not configs["ntfy"]:
-        raise Exception("Ntfy is not configured (configs.json)")
+print(topics)
 
-    ntfyMethods=[]
-
-    if isinstance(ntfyChannels,str):
-        ntfyChannels=[ntfyChannels]
-    elif not isinstance(ntfyChannels,(list,tuple)):
-        raise Exception("Invalid ntfy value (topicsToCheck.json)")
-
-    for channel in ntfyChannels:
-
-        ntfyMethods.append({
-            "ntfyURL":f"{configs["ntfy"]["domain"]}/{channel}",
-            "ntfyToken":configs["ntfy"]["token"]
-        })
-    
-    return ntfyMethods
-
-
-
+topicsToCheck={}
+for name, topic in topics.items():
+    try:
+        if not topic["enabled"]:
+            continue
+    except:
+        raise Exception("Invalid enabled value (topicsToCheck.json)")
+    topicsToCheck[name]=topic
 
 def main():
     #Preparing all notifications methods
     notificationMethods={}
     for name,topic in topicsToCheck.items():
+        
         #Cheking querys
         if isinstance(topic["querys"],str):
             topic["querys"]=[topic["querys"]]
@@ -51,29 +44,21 @@ def main():
             raise Exception("Invalid querys value (topicsToCheck.json)")
 
 
-        #Notifications Methods maker
-        topicNotificationMethods={}
-
-        if topic["ntfy"]:
-            topicNotificationMethods["ntfy"]=ntfyToMethods(topic["ntfy"])
-
-
-        #...
-            
-        
-        notificationMethods[name]=topicNotificationMethods
+        notificationMethods[name]=notificationManager(topic,configs)
     
+
+
+    print(topicsToCheck)
+
     while True:
         
         for name,topic in topicsToCheck.items():
-            lastElement=False
             for parameters in topic["querys"]:
-                if parameters==topic["querys"][-1]:
-                    lastElement=True
-                resaults=scrap.check(name,parameters,lastElement)
-                if resaults:
-                    notification.sendNotifications(resaults,notificationMethods[name])
-        
+                resaults=scrap.check(name,parameters)
+                notificationMethods[name].sendNotifications(resaults)
+                    
+            scrap.restartTopicTime(name)
+
         currentSleepTime=sleepTime+random.randint( round(sleepTime*(10/100)), round(sleepTime*(20/100)) )
         print(f"Cheking finish, now the program will wait: {currentSleepTime}s")
         time.sleep(currentSleepTime)

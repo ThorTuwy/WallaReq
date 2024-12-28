@@ -1,6 +1,6 @@
 {
     "general":{
-        "sleepTime":5
+        "sleepTime":300
     },
     "ntfy":{
         "token":"***REMOVED***",
