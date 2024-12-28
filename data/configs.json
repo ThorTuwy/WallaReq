@@ -1,9 +1,0 @@
-{
-    "general":{
-        "sleepTime":300
-    },
-    "ntfy":{
-        "token":"***REMOVED***",
-        "domain":"https://ntfy.tuwy.win"
-    }
-}

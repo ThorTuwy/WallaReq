@@ -1,0 +1,21 @@
+{
+    "topic 2": {
+        "enabled": true,
+        "ntfy": [
+            "test"
+        ],
+        "querys": [
+            {
+                "category_ids": null,
+                "condition": null,
+                "is_shippable": true,
+                "keywords": "Psvita",
+                "latitude": null,
+                "longitude": null,
+                "max_sale_price": "150",
+                "min_sale_price": "30",
+                "order_by": "newest"
+            }
+        ]
+    }
+}

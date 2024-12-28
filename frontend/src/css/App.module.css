@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+
+.headerButtons{
+    display: flex;
+    padding-right: 10px;
+
+}
+
+.roboto-bold {
+    font-family: "Roboto", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+.inline-header {
+    display: inline;
+}
+a {
+    color: inherit; /* blue colors for links too */
+    text-decoration: inherit; /* no underline */
+}
+
+body {
+    font-family: "Roboto";
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    position: sticky;
+    z-index:1000;
+    top: 0;
+    background-color: #ffffff;
+    color: white;
+    text-align: left;
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.logo{
+    display: block;
+    width: 200px;
+    padding-left: 8px;
+    height: auto;
+}
+
+
+.content {
+    display: grid;
+
+    grid-template-columns: 14% auto;
+    grid-template-rows: 100%;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    flex-grow: 1;
+
+}
+
+@media only screen and (min-width: 1588px) {
+    .content{grid-template-columns: 222px auto;}
+}
+
+
+.container {
+    position: relative;
+    left:5%;
+    margin-top: 20px; /* Adjust this value as needed */
+    width: 90%; /* Adjust this value as needed */
+}
+.status {
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    padding: 10%;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.status.online {
+    border-left: 5px solid #4CAF50;
+}
+.status.offline {
+    border-left: 5px solid #f44336;
+}
+.status:hover {
+    transform: translate(0px, -2px);
+}
+
+.noDefaultButton {
+    width: 100%;
+    max-width: 200px;
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+
+.plusButton {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(49, 155, 67);
+    padding: 10%;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.plusButton:hover {
+    transform: translate(0px, -2px);
+}
+
+.main-content {
+    padding: 20px;
+    padding-left: 25%;
+    padding-right: 25%;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 20px; /* Adjust this value as needed */
+    margin-bottom: 20px;
+    margin-right: 20px;
+    overflow: auto;
+}
+@media only screen and (max-width: 700px) {
+    .main-content{
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+
+input:invalid, select:invalid {
+border-color: #900;
+background-color: #fdd;
+}
+
+input:focus:invalid, select:focus:invalid {
+outline: none;
+}
+
+input[type=text], input[type=number], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.inputLowerCase {
+    text-transform: lowercase;
+}
+
+.actionButton {
+    margin: 8px 0;
+    margin-left: 5px;
+    width: 41px;
+    height: 41px;
+    border-radius: 4px;
+    color: black;
+    border: none;
+    text-align: center;
+
+    cursor: pointer
+}
+
+.remove{
+    background-color: #f44336;
+}
+.add {
+    background-color: #4CAF50;
+}
+.config{
+    background-color: #898989;
+}
+
+.iconButton{
+    padding-top: 5px;
+    padding-left: 7px;
+}
+
+.titleContainer {
+    display: flex;
+    justify-content: space-between;
+}
+.ButtonTitle{
+    align-items: center;
+    
+    margin: 20px 0;
+    
+}
+
+
+
+.addButton:hover, .removeButton:hover {
+    background-image: linear-gradient(rgb(0 0 0/40%) 0 0);
+}
+
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}

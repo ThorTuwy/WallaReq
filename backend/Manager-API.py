@@ -36,6 +36,44 @@ notificatorProcess=None
 
 
 
+
+
+
+
+def recursiveJSONMerger(main, mew):
+    
+     
+
+    if type(mew) is not dict:
+        main=mew
+        return main
+    
+    for key, value in mew.items():
+        
+        
+
+        if (type(value) is str and value.replace("*", "")==""):
+            continue
+
+        if isinstance(value, dict):
+            if key not in main:
+                main[key]={}
+            recursiveJSONMerger(main[key],value)
+
+        elif isinstance(value, list):
+            main[key]=[]
+            
+            for i in value:
+                main[key].append(recursiveJSONMerger({},i))
+                
+        else:
+            main[key]=value
+            if value=="":
+                main[key]=None
+
+    return main
+
+
 #Notificator related API
 
 @app.get("/start")
@@ -58,6 +96,12 @@ def stopNoti():
     notificatorProcess.terminate()
 
     notificatorProcess=None
+
+@app.get("/status")
+def stopNoti():
+    global notificatorProcess
+
+    return notificatorProcess!=None
 
 @app.get("/restart")
 def restartNoti():
@@ -94,8 +138,8 @@ class ntfy(BaseModel):
     domain: str
 
 class Config(BaseModel):
-    general: general = None
-    ntfy: ntfy = None
+    general: general 
+    ntfy: ntfy
 
 
 @app.put("/config")
@@ -108,13 +152,11 @@ def update_item(item: Config):
 
 
 
-    #If they return censured values, we arent going to change them
-    for pkey, sections in newConfig.items():
-        configs.setdefault(pkey, {})
-        for key, value in sections.items():
-            if value and value.replace("*", "")!="":
-                configs[pkey][key]=newConfig[pkey][key]
+    # Ignoring None values
+    # Also If they return censured values, we arent going to change them
     
+    configs=recursiveJSONMerger(configs,newConfig)
+
     with open('./data/configs.json',"w") as f:
         json.dump(configs, f, sort_keys=True,indent=4)
 
@@ -145,20 +187,20 @@ def getTopic(topic:str):
 class queryModel(BaseModel):
     keywords: str
     order_by: str 
-    is_shippable: bool = None
-    max_sale_price: int = None
-    min_sale_price: int = None
-    category_ids: int = None
-    latitude: int = None
-    longitude: int = None
-    condition: str = None
+    is_shippable: bool | str | None = None
+    max_sale_price: int | str | None   = None
+    min_sale_price: int | str | None   = None
+    category_ids: int | str | None   = None
+    latitude: int | str | None  = None
+    longitude: int | str | None  = None
+    condition: str | str | None  = None
 
 
 class topicModel(BaseModel):
     name: str
     enabled: bool
     querys: list[queryModel]
-    ntfy: list[str] = None
+    ntfy: list[str] | None  = None
 
 
 
@@ -169,10 +211,17 @@ def update_item(topic: topicModel):
     name=newTopic["name"].lower()
     del newTopic["name"]
 
+    if(name==""):
+        raise HTTPException(status_code=409, detail="Name can't be empty")
+
     with open('./data/topicsToCheck.json') as f:
         topics=json.load(f)
     
-    topics[name]=newTopic
+    topic={}
+    if name in topics:
+        topic=topics[name]
+
+    topics[name]=recursiveJSONMerger(topic,newTopic)
 
     with open('./data/topicsToCheck.json',"w") as f:
         json.dump(topics, f, sort_keys=True,indent=4)

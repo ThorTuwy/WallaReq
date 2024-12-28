@@ -24,10 +24,15 @@ def queryApi(parameters):
 
     conn = http.client.HTTPSConnection("api.wallapop.com")
 
-    query_params = urllib.parse.urlencode(parameters)
+    goodParameters={}
+
+    for key, value in parameters.items():
+        if value is not None:
+            goodParameters[key]=value
+
+    query_params = urllib.parse.urlencode(goodParameters)
     
     url = f"/api/v3/search?source=quick_filters&{query_params}"
-    print(url)
 
     payload = ""
 
@@ -45,10 +50,12 @@ def queryApi(parameters):
 def check(topicName,parameters):
 
     #Defaults the first time to search with 10m before the actual time (UNIX ms)
-    uploadAlredy.setdefault(topicName, int(((time.time())-(10*60))*1000))
+    uploadAlredy.setdefault(topicName, int(((time.time())-(1000*60))*1000))
 
     resaults=[]
     products=queryApi(parameters)
+
+    
     for product in products:
 
         if product["modified_at"]<=uploadAlredy[topicName]:
@@ -63,7 +70,8 @@ def check(topicName,parameters):
         imageSrc=product["images"][0]["urls"]["medium"]
 
         resaults.append((title,description,price,link_producto,imageSrc))
-    
+        
+    print(resaults)
     return resaults
 
 def restartTopicTime(topicName):
