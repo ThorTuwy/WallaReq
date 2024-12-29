@@ -15,4 +15,4 @@ jobs:
       run: |
         docker login --username thortuwy --password ${{ secrets.GH_PAT }} ghcr.io
         docker build . --file Dockerfile --tag ghcr.io/thortuwy/wallareq:latest
-        docker build . --file Dockerfile --tag ghcr.io/thortuwy/wallareq:latest
+        docker push ghcr.io/thortuwy/wallareq:latest
