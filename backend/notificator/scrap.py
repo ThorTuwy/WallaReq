@@ -4,8 +4,8 @@ import json,time
 
 
 
-with open('./data/uploadAlredy.json') as f:
-    uploadAlredy=json.load(f)
+with open('./data/uploadAlready.json') as f:
+    uploadAlready=json.load(f)
 
 
 
@@ -45,7 +45,7 @@ def queryApi(parameters):
 def check(topicName,parameters):
 
     #Defaults the first time to search with 10m before the actual time (UNIX ms)
-    uploadAlredy.setdefault(topicName, int(((time.time())-(1000*60))*1000))
+    uploadAlready.setdefault(topicName, int(((time.time())-(1000*60))*1000))
 
     resaults=[]
     products=queryApi(parameters)
@@ -53,7 +53,7 @@ def check(topicName,parameters):
     
     for product in products:
 
-        if product["modified_at"]<=uploadAlredy[topicName]:
+        if product["modified_at"]<=uploadAlready[topicName]:
             continue
 
         
@@ -71,7 +71,7 @@ def check(topicName,parameters):
 
 def restartTopicTime(topicName):
 
-    uploadAlredy[topicName]=int((time.time())*1000)
+    uploadAlready[topicName]=int((time.time())*1000)
 
-    with open("./data/uploadAlredy.json", "w") as f:
-        json.dump(uploadAlredy, f)
+    with open("./data/uploadAlready.json", "w") as f:
+        json.dump(uploadAlready, f)
