@@ -18,7 +18,7 @@ The backend is made with FastAPI and the frontend with SolidJS
 
 ## Getting Started
 
-The recomended way to use this project is Docker
+The recomended way to install this project is Docker
 
 ### Docker
 
