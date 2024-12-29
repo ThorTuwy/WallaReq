@@ -16,3 +16,54 @@ A simple app that use the API of wallapop to get all the new products in the pla
 
 The backend is made with FastAPI and the frontend with SolidJS
 
+## Getting Started
+
+The recomended way to use this project is Docker
+
+### Docker
+
+You can run the docker with this command:
+
+```sh
+docker run -p 8000:8000 ghcr.io/thortuwy/wallareq:latest
+```
+
+### Python+Node
+
+#### Prerequisites
+
+You need python3 and node installed on your system.
+
+#### Clone the repository
+```sh
+git clone https://github.com/ThorTuwy/WallaReq
+cd WallaReq
+```
+#### Run the start script
+>[!WARNING]
+>The script use pnpm to install and work with frontend dependencies, change it if you need it.
+```sh
+./start.sh
+```
+
+# Developers
+> [!CAUTION]
+> The configs.
+
+
+## Run the project
+
+For development I recomend to use the devstart.sh script:
+>[!WARNING]
+>The script use pnpm to install and work with frontend dependencies, change it if you need it.
+```sh
+./devstart.sh
+```
+
+## Build docker
+
+I recommend before trying a pull request to build the docker to check if all is working properly:
+```sh
+./makeDocker.sh
+```
+
