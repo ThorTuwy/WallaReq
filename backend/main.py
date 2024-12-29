@@ -247,13 +247,13 @@ def update_item(name: str):
 @app.put("/API/uploadAlready/remove")
 def getTopic(topicName:str):
     
-    with open('./data/uploadAlredy.json') as f:
+    with open('./data/uploadAlready.json') as f:
         topics=json.load(f)
     
     print(topicName)
     del topics[topicName]
 
-    with open('./data/uploadAlredy.json',"w") as f:
+    with open('./data/uploadAlready.json',"w") as f:
         json.dump(topics, f, sort_keys=True,indent=4)
 
 
