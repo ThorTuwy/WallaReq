@@ -86,7 +86,7 @@ async function saveChanges(topics:Topics,topicNameSignal:Accessor<string>,setTop
   const topicRealName=topicNameSignal();
 
   if(topics["name"]!=topicRealName){
-    const response = await fetch("http://127.0.0.1:8000/API/topics");
+    const response = await fetch("/API/topics");
     const topicsNames: string[] = Object.keys(await response.json());
     console.log(topicsNames);
     console.log("topicsname: "+topics["name"])
@@ -103,12 +103,12 @@ async function saveChanges(topics:Topics,topicNameSignal:Accessor<string>,setTop
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(topics)
   };
-  await fetch('http://127.0.0.1:8000/API/topics/update', requestOptions)
+  await fetch('/API/topics/update', requestOptions)
     .then(response => response.json())
     .then(data => console.log(data));
   
   if(topics["name"]!=topicRealName){
-    const response = await fetch(`http://127.0.0.1:8000/API/topics/remove?name=${topicRealName}`, {
+    const response = await fetch(`/API/topics/remove?name=${topicRealName}`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -177,7 +177,7 @@ export default function TopicInfo(props: any) {
       return;
     }
     
-    const response = await fetch(`http://127.0.0.1:8000/API/topics/remove?name=${topicNameSignal()}`, {
+    const response = await fetch(`/API/topics/remove?name=${topicNameSignal()}`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',

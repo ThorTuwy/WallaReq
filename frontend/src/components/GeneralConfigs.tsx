@@ -70,7 +70,7 @@ export default function TopicInfo(props: any) {
             body: JSON.stringify(config)
         };
 
-        await fetch('http://127.0.0.1:8000/API/config', requestOptions)
+        await fetch('/API/config', requestOptions)
         .then(response => response.json())
         .then(data => console.log(data));
         

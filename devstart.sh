@@ -1,5 +1,6 @@
 (
     cd ./frontend
+    pnpm install
     pnpm run build
 )
 
