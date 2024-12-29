@@ -47,9 +47,6 @@ cd WallaReq
 ```
 
 # Developers
-> [!CAUTION]
-> The configs.
-
 
 ## Run the project
 
@@ -66,4 +63,13 @@ I recommend before trying a pull request to build the docker to check if all is 
 ```sh
 ./makeDocker.sh
 ```
+
+## Roadmap
+
+- [ ] Refactor code
+- [ ] Improve easiness of adding new Notifications Methods (Mainly in the frontend side)
+- [ ] Add new notifications methods
+    - [ ] Discord (Webhook and Bot)
+    - [ ] Telegram
+    - [ ] ...
 
