@@ -12,15 +12,20 @@
 </div>
 
 ## About The Project
-A simple app that use the API of wallapop to get all the new products in the platform, with a frontend to make using it as easy as possible.
+A web that use the API of wallapop to get all the new products in the platform, with a frontend to make using it as easy as possible. 
+The backend is made with FastAPI and the frontend with SolidJS.
 
-The backend is made with FastAPI and the frontend with SolidJS
+>[!CAUTION]
+>This project is intented for selfthosting in local network, so everything is designed on the basis that it will only be accessed from a secure network, it is not advisable to make it accessible through the Internet.
 
 ## Getting Started
 
-The recomended way to install this project is Docker
+The recomended way to install this project is Docker.
 
 ### Docker
+
+>[!TIP]
+>If you dont know nothing about You can check the [official guide](https://docs.docker.com/get-started/docker-overview/).
 
 #### Pull
 Get the latest image:
