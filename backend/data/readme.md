@@ -1,1 +1,1 @@
-Nothings is this folder is uploaded to the git, but if you want to change how configs works update the data templates too.
+Nothings in this folder is commit, but if you want to change how configs works update the data templates too.
