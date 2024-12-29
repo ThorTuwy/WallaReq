@@ -3,13 +3,9 @@ import urllib.parse
 import json,time
 
 
-try:
-    with open('./data/uploadAlredy.json') as f:
-        uploadAlredy=json.load(f)
-except:
-    uploadAlredy={}
-    with open('./data/uploadAlredy.json',"w") as f:
-        json.dump({}, f)
+
+with open('./data/uploadAlredy.json') as f:
+    uploadAlredy=json.load(f)
 
 
 

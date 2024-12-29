@@ -1,1 +1,1 @@
-sudo docker build -t thortuwy/wallareq:1.0 .
+docker build . --file Dockerfile --tag thortuwy/wallareq:latest

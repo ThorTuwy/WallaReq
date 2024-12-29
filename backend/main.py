@@ -1,17 +1,21 @@
+import dataVerifier
+
+import json
 import notificator.main as notificator
 
 from fastapi import FastAPI
 from fastapi import HTTPException
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse,RedirectResponse
-
-
+from pydantic import BaseModel
 
 from multiprocessing import Process
 
-import json
 
-from pydantic import BaseModel
+
+
+
+#If a JSON of data is not valid or is missing, this function will copy the dataTemplate of that file.
 
 
 app = FastAPI()
@@ -20,10 +24,6 @@ app = FastAPI()
 
 
 notificatorProcess=None
-
-
-
-
 
 
 
