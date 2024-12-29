@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi import HTTPException
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse,RedirectResponse
-from fastapi.middleware.cors import CORSMiddleware
+
 
 
 from multiprocessing import Process
@@ -15,16 +15,6 @@ from pydantic import BaseModel
 
 
 app = FastAPI()
-
-origins = ["*"]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 
 
