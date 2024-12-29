@@ -55,4 +55,4 @@ class notificationManager():
 
 
 #if __name__ == "__main__":
-#   ntfySendPush(("test","test","-1","https://ntfy.tuwy.win/test","https://www.adams.es/blogs/alumno/examen-tipo-test-las-mejores-tecnicas-para-superarlo-con-exito/"),[{"ntfyURL":"https://ntfy.tuwy.win/test","ntfyToken":"***REMOVED***"}])
+#   ntfySendPush(("test","test","-1","https://ntfy.tuwy.win/test","https://www.adams.es/blogs/alumno/examen-tipo-test-las-mejores-tecnicas-para-superarlo-con-exito/"),[{"ntfyURL":"https://ntfy.tuwy.win/test","ntfyToken":"VGhvclR1d3k6bWUgZ3VzdGEgcG9rZW1v"}])
