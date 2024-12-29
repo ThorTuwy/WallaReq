@@ -54,6 +54,10 @@ cd WallaReq
 
 # Developers
 
+## Prerequisites
+
+You need python3 and node installed on your system.
+
 ## Run the project
 
 For development I recomend to use the devstart.sh script:
