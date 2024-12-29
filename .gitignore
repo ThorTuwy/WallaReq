@@ -3,3 +3,4 @@ __pycache__
 uploadAlredy.json
 node_modules
 **/dist/
+backend/data/*
