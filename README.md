@@ -22,13 +22,13 @@ The recomended way to use this project is Docker
 
 ### Docker
 
-####Pull
+#### Pull
 Get the latest image:
 ```sh
 docker pull ghcr.io/thortuwy/wallareq:latest
 ```
 
-####Run
+#### Run
 Run the docker:
 ```sh
 docker run -p 8000:8000 ghcr.io/thortuwy/wallareq:latest
