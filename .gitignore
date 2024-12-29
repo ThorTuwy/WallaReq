@@ -4,3 +4,4 @@ uploadAlredy.json
 node_modules
 **/dist/
 backend/data/*
+!backend/data/
