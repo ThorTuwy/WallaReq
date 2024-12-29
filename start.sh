@@ -12,4 +12,4 @@ cd ./backend
 
 
 pip install -r requirements.txt
-python -m fastapi dev main.py
+python -m fastapi run main.py
