@@ -1,10 +1,9 @@
-import getConfig, { type configType }  from "../context/configsStore";
-import useTopics from "../context/storageContext";
 import { createResource } from "solid-js";
 
+import getConfig, { type configType }  from "../context/configsStore";
+import useTopics from "../context/storageContext";
 
 import styles from '../css/App.module.css';
-
 import Power from 'lucide-solid/icons/power';
 import Bolt from 'lucide-solid/icons/bolt';
 
