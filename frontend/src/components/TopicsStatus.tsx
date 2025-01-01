@@ -1,8 +1,8 @@
 import { For, createResource,createEffect } from "solid-js";
+
 import getTopics  from "../context/storageContext";
 
 import styles from '../css/App.module.css';
-
 import Plus from 'lucide-solid/icons/plus';
 
 export default function TopicsStatus() {

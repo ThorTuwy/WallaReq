@@ -1,14 +1,15 @@
 import type { Component } from 'solid-js';
 import { Show } from 'solid-js';
 
-import logo from '../assets/Wallareq.webp';
-import styles from '../css/App.module.css';
-
 import TopicInfo from "../components/TopicInfo";
 import TopicsStatus from "../components/TopicsStatus";
 import HeadderButtons from '../components/HeadderButtons';
 import Welcome from '../components/Welcome';
 import GeneralConfigs from '../components/GeneralConfigs';
+
+import logo from '../assets/Wallareq.webp';
+import styles from '../css/App.module.css';
+
 
 
 import getTopics from "../context/storageContext";
