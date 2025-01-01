@@ -1,9 +1,0 @@
-{
-    "general": {
-        "sleepTime": 500
-    },
-    "ntfy": {
-        "domain": "",
-        "token": ""
-    }
-}
