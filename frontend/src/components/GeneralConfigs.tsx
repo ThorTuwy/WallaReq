@@ -9,7 +9,7 @@ import TextInput from '../components/forms/TextInput';
 
 export default function TopicInfo() {
     
-    const { topics, setTopics,topicNameSignal,setTopicName } = useTopics()!;
+    const { setTopicName } = useTopics()!;
     const { config, setConfig } = getConfig()!;  
 
     

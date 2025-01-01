@@ -6,7 +6,7 @@ import styles from '../css/App.module.css';
 import Plus from 'lucide-solid/icons/plus';
 
 export default function TopicsStatus() {
-  const { topics, setTopics,topicNameSignal,setTopicName } = getTopics()!;
+  const { setTopics,topicNameSignal,setTopicName } = getTopics()!;
   
   const fetchUser = async () => {
     const response = await fetch("/API/topics");
