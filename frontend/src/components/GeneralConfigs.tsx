@@ -1,40 +1,13 @@
-import { For,createEffect, createResource, type JSX, Index } from "solid-js";
+import useTopics from "../context/storageContext";
+import getConfig, {type configType}  from "../context/configsStore";
 
-import useTopics, { type Topics,type query } from "../context/storageContext";
-import getConfig, { type generalConfig,type ntfyConfig,type configType}  from "../context/configsStore";
-
-import { type Accessor, type Setter } from "solid-js";
-import { type SetStoreFunction,produce } from "solid-js/store"
+import { produce } from "solid-js/store"
 
 import TextInput from '../components/forms/TextInput';
 
-import styles from '../css/App.module.css';
-
-import Trash from 'lucide-solid/icons/trash';
-import Plus from 'lucide-solid/icons/plus';
-
-//<p>{topics["enabled"].toString()}</p>
 
 
-//<input type="text" id="keywords" name="keywords" value={topics["querys"][0]["keywords"]}></input><br></br>
-
-
-
-
-
-function parseValue(value:any){
-  if(value == undefined){
-    return "";
-  }
-  return value;
-}
-
-async function saveChanges(){
-  
-  
-}
-
-export default function TopicInfo(props: any) {
+export default function TopicInfo() {
     
     const { topics, setTopics,topicNameSignal,setTopicName } = useTopics()!;
     const { config, setConfig } = getConfig()!;  

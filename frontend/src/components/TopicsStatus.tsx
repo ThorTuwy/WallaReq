@@ -1,11 +1,11 @@
-import { For, createResource,createEffect, type Setter } from "solid-js";
-import getTopics, { type Topics,type query}  from "../context/storageContext";
+import { For, createResource,createEffect } from "solid-js";
+import getTopics  from "../context/storageContext";
 
 import styles from '../css/App.module.css';
 
 import Plus from 'lucide-solid/icons/plus';
 
-export default function TopicsStatus(props: any) {
+export default function TopicsStatus() {
   const { topics, setTopics,topicNameSignal,setTopicName } = getTopics()!;
   
   const fetchUser = async () => {
