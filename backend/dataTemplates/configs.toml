@@ -3,6 +3,7 @@
 type="number"
 textLabel="Sleep time (s)"
 
+#Notification Methods
 
 [ntfy]
 [ntfy.domain]
