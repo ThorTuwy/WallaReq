@@ -1,0 +1,14 @@
+[general]
+[general.sleepTime]
+type="number"
+textLabel="Sleep time (s)"
+
+
+[ntfy]
+[ntfy.domain]
+type="text"
+textLabel="Token"
+
+[ntfy.token]
+type="text"
+textLabel="Domain"
