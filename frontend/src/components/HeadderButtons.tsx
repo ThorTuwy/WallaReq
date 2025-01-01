@@ -8,7 +8,7 @@ import Power from 'lucide-solid/icons/power';
 import Bolt from 'lucide-solid/icons/bolt';
 
 const { setTopicName } = useTopics()!;
-const { config, setConfig } = getConfig()!;  
+const { setConfig } = getConfig()!;  
 
 async function startSwichFetch(){
   const response = await fetch("/API/status");
@@ -19,8 +19,6 @@ async function startSwichFetch(){
 const [switchStatus,{refetch}] = createResource(startSwichFetch);
 
 async function clickConfig(){
-  console.log(`Clicked in config`);
-
   const response = await fetch(`/API/config`);
   
   let topicInfo:configType = await response.json();
@@ -30,15 +28,12 @@ async function clickConfig(){
 }
 
 async function clickStartSwich(){
-
-  console.log(`Swich toogle`);
-
+  let query = "/API/start" 
+  //Because this is a switch, we stoop the app when the app is running
   if (switchStatus()){
-    await fetch(`/API/stop`)
+    query=`/API/stop`
   }
-  else{
-    await fetch(`/API/start`)
-  }
+  fetch(query)
   refetch()
 }
 

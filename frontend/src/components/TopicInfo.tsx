@@ -1,5 +1,5 @@
-import { For,type Accessor, type Setter } from "solid-js";
-import { type SetStoreFunction,produce } from "solid-js/store"
+import { For } from "solid-js";
+import { produce } from "solid-js/store"
 
 import useTopics, { type Topics,type query } from "../context/storageContext";
 import TextInput from '../components/forms/TextInput';
@@ -39,7 +39,6 @@ function newNtfyChannel() {
 }
 
 function newQueryElement() {
-  
   let index=1,queryKeywords="";
   while(true){
     queryKeywords="Query_"+index
@@ -57,7 +56,6 @@ function newQueryElement() {
 }
 
 function removeQueryElement(queryName:string) {
-  
   const indice = topics["querys"].findIndex(item => item["keywords"] === queryName);
   setTopics(
     "querys",
@@ -68,34 +66,27 @@ function removeQueryElement(queryName:string) {
 }
 
 async function saveChanges(){
-  
-  
   const topicRealName=topicNameSignal();
 
   if(topics["name"]!=topicRealName){
     const response = await fetch("/API/topics");
     const topicsNames: string[] = Object.keys(await response.json());
-    console.log(topicsNames);
-    console.log("topicsname: "+topics["name"])
+
     if( topicsNames.includes(  topics["name"] ) ){
       throw new Error("There is already a topic with the name: "+topics["name"]);
     }
   }
-  
-
-  
 
   const requestOptions = {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(topics)
   };
+
   await fetch('/API/topics/update', requestOptions)
-    .then(response => response.json())
-    .then(data => console.log(data));
   
   if(topics["name"]!=topicRealName){
-    const response = await fetch(`/API/topics/remove?name=${topicRealName}`, {
+    await fetch(`/API/topics/remove?name=${topicRealName}`, {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -104,9 +95,9 @@ async function saveChanges(){
     });
   }
 
+  //This is done to force a reload of the Heeadders buttons
   setTopicName("")
   setTopicName(topics["name"])
-  
 }
 
 function handleInput(currentTarget:HTMLInputElement|HTMLSelectElement,topicName:false|string){
@@ -118,10 +109,6 @@ function handleInput(currentTarget:HTMLInputElement|HTMLSelectElement,topicName:
   if(currentTarget.type==="checkbox"){
     changeData=(currentTarget as HTMLInputElement).checked;
   }
-
-  console.log("changeData: "+currentTarget);
-
-
 
   //No uppercase for name
   if(elementId==="name"){
@@ -154,13 +141,12 @@ function handleInput(currentTarget:HTMLInputElement|HTMLSelectElement,topicName:
 }
 
 async function deleteTopic(){
-  const userResponse = confirm("Are you sure you want to delete this topic?");
-  
-  if(!userResponse){
+
+  if(!confirm("Are you sure you want to delete this topic?")){
     return;
   }
   
-  const response = await fetch(`/API/topics/remove?name=${topicNameSignal()}`, {
+  await fetch(`/API/topics/remove?name=${topicNameSignal()}`, {
     method: 'PUT',
     headers: {
       'Accept': 'application/json',
