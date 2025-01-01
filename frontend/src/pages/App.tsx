@@ -11,11 +11,11 @@ import Welcome from '../components/Welcome';
 import GeneralConfigs from '../components/GeneralConfigs';
 
 
-import getTopics, { type Topics,type query}  from "../context/storageContext";
+import getTopics from "../context/storageContext";
 
 const App: Component = () => {
 
-  const { topics, setTopics,topicNameSignal,setTopicName } = getTopics()!;
+  const { topicNameSignal } = getTopics()!;
 
 
   return (

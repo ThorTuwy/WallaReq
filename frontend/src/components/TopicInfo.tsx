@@ -1,4 +1,4 @@
-import { For,createEffect, createResource, type JSX, Index } from "solid-js";
+import { For } from "solid-js";
 import useTopics, { type Topics,type query } from "../context/storageContext";
 import { type Accessor, type Setter } from "solid-js";
 import { type SetStoreFunction,produce } from "solid-js/store"
@@ -9,14 +9,6 @@ import styles from '../css/App.module.css';
 
 import Trash from 'lucide-solid/icons/trash';
 import Plus from 'lucide-solid/icons/plus';
-
-//<p>{topics["enabled"].toString()}</p>
-
-
-//<input type="text" id="keywords" name="keywords" value={topics["querys"][0]["keywords"]}></input><br></br>
-
-
-
 
 
 function parseValue(value:any){

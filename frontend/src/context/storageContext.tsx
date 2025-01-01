@@ -1,5 +1,5 @@
-import { createContext, useContext, createSignal, type Accessor, type Setter } from "solid-js";
-import { createStore,type SetStoreFunction } from "solid-js/store"
+import { createSignal } from "solid-js";
+import { createStore } from "solid-js/store"
 
 
 export type query = {

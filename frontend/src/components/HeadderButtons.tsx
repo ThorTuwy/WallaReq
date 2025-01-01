@@ -1,7 +1,6 @@
-import getConfig, { type generalConfig,type ntfyConfig,type configType}  from "../context/configsStore";
-import useTopics, { type Topics,type query } from "../context/storageContext";
-import { createContext, useContext, createSignal, type Accessor, type Setter } from "solid-js";
-import { For, createResource,createEffect } from "solid-js";
+import getConfig, { type configType }  from "../context/configsStore";
+import useTopics from "../context/storageContext";
+import { createResource } from "solid-js";
 
 
 import styles from '../css/App.module.css';
