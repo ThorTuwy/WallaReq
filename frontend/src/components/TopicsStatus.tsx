@@ -5,72 +5,68 @@ import getTopics  from "../context/storageContext";
 import styles from '../css/App.module.css';
 import Plus from 'lucide-solid/icons/plus';
 
-export default function TopicsStatus() {
-  const { setTopics,topicNameSignal,setTopicName } = getTopics()!;
+const { setTopics,topicNameSignal,setTopicName } = getTopics()!;
+
+async function fetchUser(){
+  const response = await fetch("/API/topics");
+  const topics = await response.json();
+
+  const topicsKeys: string[] = Object.keys(topics);
+
+  const processedTopics = topicsKeys.map(key => {
+    return [key, topics[key]];
+  });
+
+  return processedTopics;
+}
+const [topicsElements,{refetch}] = createResource(fetchUser);
+createEffect(() => {
+  topicNameSignal();
+  console.log("Reloading topics");
+  refetch()
+})
+
+async function click(topicName: string){
+  console.log(`Clicked topic: ${topicName}`);
+
+  const response = await fetch(`/API/topics/${topicName}`);
   
-  const fetchUser = async () => {
-    const response = await fetch("/API/topics");
-    const topics = await response.json();
+  let topicInfo = await response.json();
 
-    const topicsKeys: string[] = Object.keys(topics);
+  topicInfo["name"]=topicName;
 
-    const processedTopics = topicsKeys.map(key => {
-      return [key, topics[key]];
-    });
+  console.log("Topic info: "+topicInfo);
+  setTopicName(topicName);
+  setTopics(topicInfo)
+};
 
-    return processedTopics;
-  };
-
+async function clickAddButton(){
+  let index=1,topicName="";
   
-
-  const [topicsElements,{refetch}] = createResource(fetchUser);
-
-  createEffect(() => {
-    topicNameSignal();
-    console.log("Reloading topics");
-    refetch()
-  })
-
-  const click = async (topicName: string) => {
-    console.log(`Clicked topic: ${topicName}`);
-
-	  const response = await fetch(`/API/topics/${topicName}`);
-    
-    let topicInfo = await response.json();
-
-    topicInfo["name"]=topicName;
-  
-    console.log("Topic info: "+topicInfo);
-    setTopicName(topicName);
-    setTopics(topicInfo)
-  };
-
-  const clickAddButton = async () => {
-    let index=1,topicName="";
-    
-    while(true){
-      topicName="topic "+index
-      if(topicsElements()!.findIndex(item => item[0] === topicName) === -1){
-        console.log(`Adding topic: ${topicName}`);
-        console.log(topicsElements());
-        break;
-      }
-      index++;
+  while(true){
+    topicName="topic "+index
+    if(topicsElements()!.findIndex(item => item[0] === topicName) === -1){
+      console.log(`Adding topic: ${topicName}`);
+      console.log(topicsElements());
+      break;
     }
+    index++;
+  }
 
-    const response = await fetch(`/API/topics/add?name=${topicName}`, {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    });
-    
-    await refetch();
-    
-    await click(topicName);
-  };
+  const response = await fetch(`/API/topics/add?name=${topicName}`, {
+    method: 'PUT',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  });
   
+  await refetch();
+  
+  await click(topicName);
+};
+
+export default function TopicsStatus() {
   return (
     <>
       <For each={topicsElements()}>

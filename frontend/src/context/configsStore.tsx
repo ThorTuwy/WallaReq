@@ -1,6 +1,5 @@
 import { createStore } from "solid-js/store"
 
-
 export type generalConfig = {
     sleepTime: number
 }
@@ -9,7 +8,6 @@ export type ntfyConfig = {
     token: number,
     domain: string,
 }
-
 
 export type configType = {
     general: generalConfig,

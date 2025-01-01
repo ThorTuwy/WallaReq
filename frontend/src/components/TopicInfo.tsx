@@ -8,6 +8,7 @@ import styles from '../css/App.module.css';
 import Trash from 'lucide-solid/icons/trash';
 import Plus from 'lucide-solid/icons/plus';
 
+const { topics, setTopics,topicNameSignal,setTopicName } = useTopics()!;
 
 function parseValue(value:any){
   if(value == undefined){
@@ -16,8 +17,7 @@ function parseValue(value:any){
   return value;
 }
 
-
-function removeNtfyChannel(index: number, setTopics: SetStoreFunction<Topics>) {
+function removeNtfyChannel(index: number) {
   setTopics(
     produce((topics) => {
       topics.ntfy.splice(index, 1);
@@ -25,7 +25,7 @@ function removeNtfyChannel(index: number, setTopics: SetStoreFunction<Topics>) {
   );
 }
 
-function newNtfyChannel(setTopics: SetStoreFunction<Topics>) {
+function newNtfyChannel() {
   const newChannel=(document.getElementById("ntfyChannel_new")!as HTMLInputElement).value
   if(newChannel===""){
     return;
@@ -38,7 +38,7 @@ function newNtfyChannel(setTopics: SetStoreFunction<Topics>) {
   (document.getElementById("ntfyChannel_new")!as HTMLInputElement).value="";
 }
 
-function newQueryElement(topics:Topics,setTopics: SetStoreFunction<Topics>) {
+function newQueryElement() {
   
   let index=1,queryKeywords="";
   while(true){
@@ -56,7 +56,7 @@ function newQueryElement(topics:Topics,setTopics: SetStoreFunction<Topics>) {
   );
 }
 
-function removeQueryElement(queryName:string,topics:Topics,setTopics: SetStoreFunction<Topics>) {
+function removeQueryElement(queryName:string) {
   
   const indice = topics["querys"].findIndex(item => item["keywords"] === queryName);
   setTopics(
@@ -67,10 +67,7 @@ function removeQueryElement(queryName:string,topics:Topics,setTopics: SetStoreFu
   );
 }
 
-
-
-
-async function saveChanges(topics:Topics,topicNameSignal:Accessor<string>,setTopicName:Setter<string>){
+async function saveChanges(){
   
   
   const topicRealName=topicNameSignal();
@@ -112,78 +109,71 @@ async function saveChanges(topics:Topics,topicNameSignal:Accessor<string>,setTop
   
 }
 
-export default function TopicInfo(props: any) {
-  
-  const { topics, setTopics,topicNameSignal,setTopicName } = useTopics()!;
-
-  const handleInput = (currentTarget:HTMLInputElement|HTMLSelectElement,topicName:false|string) => {
+function handleInput(currentTarget:HTMLInputElement|HTMLSelectElement,topicName:false|string){
    
-    const elementId = currentTarget.id;
+  const elementId = currentTarget.id;
 
-    let changeData:string|boolean=currentTarget.value;
+  let changeData:string|boolean=currentTarget.value;
 
-    if(currentTarget.type==="checkbox"){
-      changeData=(currentTarget as HTMLInputElement).checked;
-    }
+  if(currentTarget.type==="checkbox"){
+    changeData=(currentTarget as HTMLInputElement).checked;
+  }
 
-    console.log("changeData: "+currentTarget);
-
-
-
-    //No uppercase for name
-    if(elementId==="name"){
-      changeData=(changeData as string).toLowerCase();
-    }
-    
-    if(topicName === false){
-      setTopics(elementId as keyof Topics,changeData);
-      return;
-    }
-
-    //Special checks for the keywords
-    if(elementId==="keywords"){
-      if(changeData===""){
-        throw new Error("Keywords can't be empty");
-      }
-      if(topics["querys"].findIndex(item => item["keywords"] === changeData)!=-1 ){
-        throw new Error("There is already a query with the same keywords");
-      }
-    }
-
-    const indice = topics["querys"].findIndex(item => item["keywords"] === topicName);
-
-    if(indice == -1){
-      throw new Error("There is no element with the name: "+topicName);
-    }
+  console.log("changeData: "+currentTarget);
 
 
-    setTopics("querys",indice,elementId as keyof query,changeData);
-  };
 
-  const deleteTopic = async () => {
-    const userResponse = confirm("Are you sure you want to delete this topic?");
-    
-    if(!userResponse){
-      return;
-    }
-    
-    const response = await fetch(`/API/topics/remove?name=${topicNameSignal()}`, {
-      method: 'PUT',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
-    });
-
-    setTopicName("")
+  //No uppercase for name
+  if(elementId==="name"){
+    changeData=(changeData as string).toLowerCase();
   }
   
+  if(topicName === false){
+    setTopics(elementId as keyof Topics,changeData);
+    return;
+  }
+
+  //Special checks for the keywords
+  if(elementId==="keywords"){
+    if(changeData===""){
+      throw new Error("Keywords can't be empty");
+    }
+    if(topics["querys"].findIndex(item => item["keywords"] === changeData)!=-1 ){
+      throw new Error("There is already a query with the same keywords");
+    }
+  }
+
+  const indice = topics["querys"].findIndex(item => item["keywords"] === topicName);
+
+  if(indice == -1){
+    throw new Error("There is no element with the name: "+topicName);
+  }
+
+
+  setTopics("querys",indice,elementId as keyof query,changeData);
+}
+
+async function deleteTopic(){
+  const userResponse = confirm("Are you sure you want to delete this topic?");
+  
+  if(!userResponse){
+    return;
+  }
+  
+  const response = await fetch(`/API/topics/remove?name=${topicNameSignal()}`, {
+    method: 'PUT',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    }
+  });
+
+  setTopicName("")
+}
+
+export default function TopicInfo() {
   return (  
     <>
-
-      
-      
-      
       <div class={styles.titleContainer}>
         <h1>{topics["name"]}</h1>
         
@@ -215,7 +205,8 @@ export default function TopicInfo(props: any) {
             <br/>
             <div style={{display: "flex","justify-content": "space-between"}}>
                 <h2  class={styles["inline-header"]}>{query["keywords"]}</h2>
-                <button  class={[styles.actionButton, styles.remove, styles.iconButton, styles.ButtonTitle].join(" ")} type="button" onclick={() => removeQueryElement(query["keywords"],topics, setTopics)}>
+                <button  class={[styles.actionButton, styles.remove, styles.iconButton, styles.ButtonTitle].join(" ")} type="button" 
+                onclick={() => removeQueryElement(query["keywords"])}>
                   <Trash/>
                 </button>
             </div>
@@ -277,7 +268,7 @@ export default function TopicInfo(props: any) {
         )}
       </For>
       <div style={{display: "flex","justify-content": "center"}}>
-        <button class={styles.noDefaultButton} type="button" onclick={() => newQueryElement(topics,setTopics)}>
+        <button class={styles.noDefaultButton} type="button" onclick={() => newQueryElement()}>
           <div class={styles.plusButton}>
             <Plus/>
           </div>
@@ -299,7 +290,7 @@ export default function TopicInfo(props: any) {
                 value={channel}>
                   <p>sis</p>
                 </input>
-                <button class={[styles.actionButton, styles.remove, styles.iconButton].join(" ")} type="button" onclick={() => removeNtfyChannel(index(), setTopics)}>
+                <button class={[styles.actionButton, styles.remove, styles.iconButton].join(" ")} type="button" onclick={() => removeNtfyChannel(index())}>
                   <Trash/>
                 </button>
               </div>
@@ -311,7 +302,7 @@ export default function TopicInfo(props: any) {
         
         <div style={{display: "flex"}}>
           <input type="text" id="ntfyChannel_new" name="channels"></input>
-          <button class={[styles.actionButton, styles.add, styles.iconButton].join(" ")} type="button" onclick={() => newNtfyChannel(setTopics)}>
+          <button class={[styles.actionButton, styles.add, styles.iconButton].join(" ")} type="button" onclick={() => newNtfyChannel()}>
             <Plus/>
           </button>
         </div>
@@ -319,7 +310,7 @@ export default function TopicInfo(props: any) {
 
       </div>
       <br/><br/>
-      <button type="button" onclick={async() => await saveChanges(topics,topicNameSignal,setTopicName)}>
+      <button type="button" onclick={async() => await saveChanges()}>
         <div>Save Changes</div>
       </button>
 
