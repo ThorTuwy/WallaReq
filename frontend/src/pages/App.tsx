@@ -10,14 +10,11 @@ import GeneralConfigs from '../components/GeneralConfigs';
 import logo from '../assets/Wallareq.webp';
 import styles from '../css/App.module.css';
 
-
-
 import getTopics from "../context/storageContext";
 
+const { topicNameSignal } = getTopics()!;
+
 const App: Component = () => {
-
-  const { topicNameSignal } = getTopics()!;
-
 
   return (
     <>
