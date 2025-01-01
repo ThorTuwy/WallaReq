@@ -8,8 +8,6 @@ const { setTopicName } = useTopics()!;
 const { config, setConfig } = getConfig()!;  
 
 function handleInput(currentTarget:HTMLInputElement|HTMLSelectElement,configName:keyof configType){
-    console.log("pre:")
-    console.log(config)
     const elementId = currentTarget.id ;
 
     let changeData:string|boolean=currentTarget.value;
