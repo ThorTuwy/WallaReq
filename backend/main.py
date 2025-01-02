@@ -1,6 +1,8 @@
+dataDirectory="./data"
+templatesDirectory="./dataTemplates"
 import dataVerifier
 
-import json
+import json,tomllib,os
 import notificator.main as notificator
 
 from fastapi import FastAPI
@@ -178,6 +180,17 @@ def getTopic(topic:str):
     
     return JSONResponse(content=topics[topic])
 
+@app.get("/API/template/topics")
+def getTopicTemplate():
+    topicsToCheckFile = os.path.join(templatesDirectory, "topicsToCheck.toml")
+    
+    with open(topicsToCheckFile, 'rb') as f:
+        topicsToCheck=tomllib.load(f)
+
+    return topicsToCheck
+
+    
+    
 
 class queryModel(BaseModel):
     keywords: str
