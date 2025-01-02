@@ -2,7 +2,7 @@ import { produce } from "solid-js/store"
 
 import useTopics from "../context/storageContext";
 import getConfig, {type configType}  from "../context/configsStore";
-import TextInput from '../components/forms/TextInput';
+import TextInput from './forms/InputObjects';
 
 const { setTopicName } = useTopics()!;
 const { config, setConfig } = getConfig()!;  
