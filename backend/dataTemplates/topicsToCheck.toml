@@ -3,7 +3,7 @@
 [topic.enabled]
 type="checkbox"
 textLabel="Running"
-order=1
+
 
 [query]
 
@@ -11,7 +11,7 @@ order=1
 type="text"
 textLabel="Keywords"
 reqired=true
-order=1
+
 
 
 [query.order_by]
@@ -22,32 +22,31 @@ options = [ ["most_relevance","Most relevance"],
             ["price_low_to_high","Lowest price"], 
             ["price_high_to_low","Highest price"] ] 
 reqired=true
-order=2
+
 
 [query.max_sale_price]
 type="number"
 textLabel="Max sale price"
-order=3
+
 
 [query.min_sale_price]
 type="number"
 textLabel="Min sale price"
-order=4
+
 
 [query.category_ids]
 type="number"
 textLabel="Category IDs"
-order=5
+
 
 [query.latitude]
 type="number"
 textLabel="Latitude"
-order=6
 
 [query.longitude]
 type="number"
 textLabel="Longitude"
-order=7
+
 
 [query.condition]
 type="select"
@@ -58,17 +57,16 @@ options = [ ["",""],
             ["good","Good"], 
             ["fair","Fair"], 
             ["has_given_it_all","Has given it all"]] 
-order=8
 
 [query.is_shippable]
 type="checkbox"
 textLabel="Only products with shipping:"
-order=9
+
 
 #Notification Methods
 
 [ntfy]
 type="stringArray"
 textLabel="Channels:"
-order=1
+
 
