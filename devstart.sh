@@ -1,7 +1,7 @@
 (
     cd ./frontend
     pnpm install
-    pnpm run build
+    pnpm run build --mode development
 )
 
 rm -rf ./backend/dist
