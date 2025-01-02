@@ -2,7 +2,7 @@ import { For } from "solid-js";
 import { produce } from "solid-js/store"
 
 import useTopics, { type Topics,type query } from "../context/storageContext";
-import TextInput from '../components/forms/TextInput';
+import TextInput from './forms/InputObjects';
 
 import styles from '../css/App.module.css';
 import Trash from 'lucide-solid/icons/trash';
@@ -157,7 +157,29 @@ async function deleteTopic(){
   setTopicName("")
 }
 
+//Provisional
+type option = {
+  value: string
+  text: string
+}
+const order_byOptions: option[] = [
+  { value: "most_relevance", text: "Most relevance" },
+  { value: "newest", text: "Newest" },
+  { value: "price_low_to_high", text: "Lowest price" },
+  { value: "price_high_to_low", text: "Highest price" }
+];
+
+const conditionOptions: option[] = [
+  { value: "", text: "None" },
+  { value: "new", text: "New" },
+  { value: "as_good_as_new", text: "As good as new" },
+  { value: "good", text: "Good" },
+  { value: "fair", text: "Fair" },
+  { value: "has_given_it_all", text: "Has given it all" }
+];
 export default function TopicInfo() {
+
+  
   return (  
     <>
       <div class={styles.titleContainer}>
@@ -202,16 +224,10 @@ export default function TopicInfo() {
             <TextInput id="keywords" topicName={query["keywords"]} onInput={handleInput} value={query["keywords"]} typeData="text"/>
             <br/>
 
+            
             <label for="order_by">Order by: </label>
-            <select required name="order_by" id="order_by" 
-            value={parseValue(query["order_by"])}
-            onInput={(event) => handleInput(event.currentTarget, query["keywords"])}>
-              <option value="most_relevance">most_relevance</option>
-              <option value="newest">newest</option>
-              <option value="price_low_to_high">price_low_to_high</option>
-              <option value="price_high_to_low">price_high_to_low</option>
-              <option value="newest">closest</option>
-            </select>
+            <TextInput id="order_by" topicName={query["keywords"]} onInput={handleInput} value={query["order_by"]} typeData="select" options={order_byOptions}/>
+            <br/>
             
             
 
