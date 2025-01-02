@@ -2,6 +2,7 @@
 [general.sleepTime]
 type="number"
 textLabel="Sleep time (s)"
+defaultValue=500
 
 #Notification Methods
 
