@@ -25,7 +25,7 @@ The recomended way to install this project is Docker.
 ### Docker
 
 >[!TIP]
->If you dont know nothing about docker, you can check the [official guide](https://docs.docker.com/get-started/docker-overview/).
+>If you know nothing about docker, you can check the [official guide](https://docs.docker.com/get-started/docker-overview/).
 
 #### Pull
 Get the latest image:
