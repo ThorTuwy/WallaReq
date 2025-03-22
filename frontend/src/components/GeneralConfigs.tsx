@@ -1,66 +1,83 @@
-import { produce } from "solid-js/store"
-
-import useTopics from "../context/storageContext";
-import getConfig, {type configType}  from "../context/configsStore";
+import getConfig  from "../context/configsStore";
 import TextInput from './forms/InputObjects';
+import { formToApiJson } from "../utils/formDataPaser";
+import { For } from "solid-js";
 
-const { setTopicName } = useTopics()!;
-const { config, setConfig } = getConfig()!;  
+import configTemplate from "../templates/template_configs.json";
 
-function handleInput(currentTarget:HTMLInputElement|HTMLSelectElement,configName:keyof configType){
-    const elementId = currentTarget.id ;
+const { config } = getConfig()!;  
 
-    let changeData:string|boolean=currentTarget.value;
 
-    if(currentTarget.type==="checkbox"){
-        changeData=(currentTarget as HTMLInputElement).checked;
-    }
-    
-    setConfig(
-        produce((config:configType) => {
-            console.log(config);
-            (config[configName] as any)[elementId] = changeData;
-        })
-    )
 
-    console.log(config)
+function handleInput(currentTarget:HTMLInputElement|HTMLSelectElement,configName:any){
+
 }
 
-async function saveChanges(){
+
+async function onSubmit(e: SubmitEvent){
+    e.preventDefault();
+    const form = e.currentTarget as HTMLFormElement;
+    
+    let toApiJSON = formToApiJson(form);
+
     const requestOptions = {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(config)
+        body: JSON.stringify(toApiJSON)
     };
 
     await fetch('/API/config', requestOptions)
-    .then(response => response.json())
-    .then(data => console.log(data));
-    
-
-    setTopicName("")
-    setTopicName("CONFIG")
 }
 
+
+
+
 export default function TopicInfo() {
+    const general=configTemplate["general"]
+    const notifications=configTemplate["notifications"]
     return (  
-        <>      
-            <h1>General</h1>
-            <label for="sleepTime">Sleep time (s):</label>
-            <TextInput id="sleepTime" topicName="general" onInput={handleInput} value={config["general"]["sleepTime"]} typeData="number" required={true}/>
-            <h1>Notification methods</h1>
-            <h2>NTFY</h2>
+        <>     
+        {/* General Settings */}
+            <form onSubmit={onSubmit}>
+                    <h1>General</h1>
+                    <For each={Object.keys(general)}>
+                        {(key) => {
+                            const id=`general.${key}`
+                            const input_object = general[key as keyof typeof general]
+                            return (
+                            <>
+                                <label for={id}>{input_object["textLabel"]}</label>
+                                <TextInput id={id} topicName={``} onInput={handleInput} value={(config as any)["general"][key]} typeData={input_object["type"]} required={"required" in input_object ? input_object["required"] : false}/>
+                            </>
+                            );
+                        }}
+                    </For>
 
-            <label for="token">Token:</label>
-            <TextInput id="token" topicName="ntfy" onInput={handleInput} value={config["ntfy"]["token"]} typeData="text" required={true}/>
-
-            <label for="domain">Domain:</label>
-            <TextInput id="domain" topicName="ntfy"  onInput={handleInput} value={config["ntfy"]["domain"]} typeData="text" required={true}/>
-
-
-            <button type="button" onclick={async() => await saveChanges()}>
-                <div>Save Changes</div>
-            </button>
+                    <h1>Notifications methods</h1>
+                    <For each={Object.keys(notifications)}>
+                        {(notification) => {
+                            const obj_notifications=notifications[notification as keyof typeof notifications]
+                            return (
+                            <>
+                                <h2>{notification}</h2>
+                               <For each={Object.keys(obj_notifications)}>
+                                    {(key) => {
+                                        const id=`notifications.${notification}.${key}`
+                                        const input_object = obj_notifications[key as keyof typeof obj_notifications]
+                                        return (
+                                        <>
+                                            <label for={id}>{input_object["textLabel"]}</label>
+                                            <TextInput id={id} topicName={``} onInput={handleInput} value={(config as any)["notifications"][notification][key]} typeData={input_object["type"]} required={input_object["required"]}/>
+                                        </>
+                                        );
+                                    }}
+                                </For>
+                            </>
+                            );
+                        }}
+                    </For>
+                <button type="submit">Submit</button>
+            </form>
         </>
     );
 }

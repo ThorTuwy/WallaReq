@@ -49,7 +49,6 @@ def check(topicName,parameters):
 
     resaults=[]
     products=queryApi(parameters)
-
     
     for product in products:
 
@@ -65,8 +64,9 @@ def check(topicName,parameters):
         imageSrc=product["images"][0]["urls"]["medium"]
 
         resaults.append((title,description,price,link_producto,imageSrc))
-        
-    print(resaults)
+    
+    print("resaults:")
+    print(len(resaults))
     return resaults
 
 def restartTopicTime(topicName):

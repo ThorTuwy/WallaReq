@@ -1,20 +1,24 @@
-[topic]
-
-[topic.enabled]
+#General Configurations arent inside of objects
+[enabled]
 type="checkbox"
 textLabel="Running"
 
+[name]
+type="text"
+textLabel="Name"
 
-[query]
 
-[query.keywords]
+[querys]
+type="objectsArray"
+
+[querys.keywords]
 type="text"
 textLabel="Keywords"
 reqired=true
 
 
 
-[query.order_by]
+[querys.order_by]
 type="select"
 textLabel="Order by"
 options = [ ["most_relevance","Most relevance"], 
@@ -24,31 +28,31 @@ options = [ ["most_relevance","Most relevance"],
 reqired=true
 
 
-[query.max_sale_price]
+[querys.max_sale_price]
 type="number"
 textLabel="Max sale price"
 
 
-[query.min_sale_price]
+[querys.min_sale_price]
 type="number"
 textLabel="Min sale price"
 
 
-[query.category_ids]
+[querys.category_ids]
 type="number"
 textLabel="Category IDs"
 
 
-[query.latitude]
+[querys.latitude]
 type="number"
 textLabel="Latitude"
 
-[query.longitude]
+[querys.longitude]
 type="number"
 textLabel="Longitude"
 
 
-[query.condition]
+[querys.condition]
 type="select"
 textLabel="Condition"
 options = [ ["",""], 
@@ -58,15 +62,23 @@ options = [ ["",""],
             ["fair","Fair"], 
             ["has_given_it_all","Has given it all"]] 
 
-[query.is_shippable]
+[querys.is_shippable]
 type="checkbox"
 textLabel="Only products with shipping:"
 
 
 #Notification Methods
 
-[ntfy]
+[notifications]
+
+[notifications.ntfy]
+
+[notifications.ntfy.channels]
 type="stringArray"
 textLabel="Channels:"
 
+[notifications.discord]
 
+[notifications.discord.enabled_webhook]
+type="checkbox"
+textLabel="Send to Discord"

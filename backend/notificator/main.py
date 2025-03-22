@@ -21,7 +21,7 @@ sleepTime=configs["general"]["sleepTime"]
 with open('./data/topicsToCheck.json') as f:
     topics=json.load(f)
 
-print(topics)
+
 
 topicsToCheck={}
 for name, topic in topics.items():
@@ -48,12 +48,16 @@ def main():
     
 
 
-    print(topicsToCheck)
+    
 
     while True:
         
+        print(f"topicsToCheck: {topicsToCheck}")
+
         for name,topic in topicsToCheck.items():
+            print(f"Checking topic: {name}")
             for parameters in topic["querys"]:
+                print("Checking: ")
                 resaults=scrap.check(name,parameters)
                 notificationMethods[name].sendNotifications(resaults)
                     

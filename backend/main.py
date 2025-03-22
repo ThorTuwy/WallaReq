@@ -1,20 +1,29 @@
 dataDirectory="./data"
 templatesDirectory="./dataTemplates"
-import dataVerifier
+
+import copy
+
+import dataTemplates.configs_model as configs_model
+import dataTemplates.topicsToCheck_model as topics_model
 
 import json,tomllib,os
 import notificator.main as notificator
 
-from fastapi import FastAPI
+from fastapi import FastAPI,Request
 from fastapi import HTTPException
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse,RedirectResponse
 from pydantic import BaseModel
 
 from multiprocessing import Process
+    
+TOPIC_TEMPLATE={}
+with open('./dataTemplates/template_topicsToCheck.json') as f:
+    TOPIC_TEMPLATE=json.load(f)
 
-
-
+CONFIGS_TEMPLATE={}
+with open('./dataTemplates/template_configs.json') as f:
+    CONFIGS_TEMPLATE=json.load(f)
 
 
 #If a JSON of data is not valid or is missing, this function will copy the dataTemplate of that file.
@@ -29,17 +38,17 @@ notificatorProcess=None
 
 
 
-def recursiveJSONMerger(main, mew):
-    
-     
+def recursiveJSONMerger(main, new,template):
 
-    if type(mew) is not dict:
-        main=mew
+    if type(new) is not dict:
+        main=new
         return main
     
-    for key, value in mew.items():
-        
-        
+    for key, value in new.items():
+
+        new_template=None
+        if key in template:
+            new_template=template[key]
 
         if (type(value) is str and value.replace("*", "")==""):
             continue
@@ -47,18 +56,20 @@ def recursiveJSONMerger(main, mew):
         if isinstance(value, dict):
             if key not in main:
                 main[key]={}
-            recursiveJSONMerger(main[key],value)
+            recursiveJSONMerger(main[key],value,new_template)
 
         elif isinstance(value, list):
             main[key]=[]
             
-            for i in value:
-                main[key].append(recursiveJSONMerger({},i))
-                
+            for i in range(len(value)):
+                main[key].append(recursiveJSONMerger({},value[i],new_template))
+
+        elif not value:
+            print(main)
+            print(key)
+            main[key]=new_template
         else:
             main[key]=value
-            if value=="":
-                main[key]=None
 
     return main
 
@@ -123,24 +134,8 @@ def changeConfigs():
     
     return JSONResponse(content=configs) 
 
-
-
-
-
-class general(BaseModel):
-    sleepTime: int
-
-class ntfy(BaseModel):
-    token: str
-    domain: str
-
-class Config(BaseModel):
-    general: general 
-    ntfy: ntfy
-
-
 @app.put("/API/config")
-def update_item(item: Config):
+def update_item(item: configs_model.Configs):
     
     with open('./data/configs.json') as f:
         configs=json.load(f)
@@ -152,7 +147,7 @@ def update_item(item: Config):
     # Ignoring None values
     # Also If they return censured values, we arent going to change them
     
-    configs=recursiveJSONMerger(configs,newConfig)
+    configs=recursiveJSONMerger(configs,newConfig,CONFIGS_TEMPLATE)
 
     with open('./data/configs.json',"w") as f:
         json.dump(configs, f, sort_keys=True,indent=4)
@@ -179,44 +174,37 @@ def getTopic(topic:str):
         topics=json.load(f)
     
     return JSONResponse(content=topics[topic])
-
-@app.get("/API/template/topics")
-def getTopicTemplate():
-    topicsToCheckFile = os.path.join(templatesDirectory, "topicsToCheck.toml")
-    
-    with open(topicsToCheckFile, 'rb') as f:
-        topicsToCheck=tomllib.load(f)
-
-    return topicsToCheck
-
-    
     
 
-class queryModel(BaseModel):
-    keywords: str
-    order_by: str 
-    is_shippable: bool | str | None = None
-    max_sale_price: int | str | None   = None
-    min_sale_price: int | str | None   = None
-    category_ids: int | str | None   = None
-    latitude: int | str | None  = None
-    longitude: int | str | None  = None
-    condition: str | str | None  = None
+def recursiveJSONRemoveEmptyStrings(data):
+    if type(data) is not dict:
+        return data
 
+    for key, value in data.items():
 
-class topicModel(BaseModel):
-    name: str
-    enabled: bool
-    querys: list[queryModel]
-    ntfy: list[str] | None  = None
+        if value=="":
+            data[key]=None
 
+        if isinstance(value, dict):
+            recursiveJSONRemoveEmptyStrings(value)
+
+        elif isinstance(value, list):
+            for i in range(len(value)):
+                recursiveJSONRemoveEmptyStrings(value[i])
+
+    return data
 
 
 @app.put("/API/topics/update")
-def update_item(topic: topicModel):
+async def update_item(topic_raw: Request):
+    
+    data = await topic_raw.json()
+    data = recursiveJSONRemoveEmptyStrings(data)
+    topic = topics_model.TopicsToCheck(**data)
     
     newTopic = jsonable_encoder(topic)
     name=newTopic["name"].lower()
+
     del newTopic["name"]
 
     if(name==""):
@@ -229,7 +217,7 @@ def update_item(topic: topicModel):
     if name in topics:
         topic=topics[name]
 
-    topics[name]=recursiveJSONMerger(topic,newTopic)
+    topics[name]=recursiveJSONMerger(topic,newTopic,TOPIC_TEMPLATE)
 
     with open('./data/topicsToCheck.json',"w") as f:
         json.dump(topics, f, sort_keys=True,indent=4)
@@ -240,7 +228,8 @@ def update_item(name: str):
     with open('./data/topicsToCheck.json') as f:
         topics=json.load(f)
     
-    topics[name]={"enabled":False,"querys":[],"ntfy":[]}
+
+    topics[name]=copy.deepcopy(TOPIC_TEMPLATE)
 
     with open('./data/topicsToCheck.json',"w") as f:
         json.dump(topics, f, sort_keys=True,indent=4)
