@@ -63,6 +63,8 @@ cd WallaReq
 
 You need python3 and node installed on your system.
 
+Also for better code autocompletion is recommended to run "auto-code-generator" main.py script in order to get all templates and interface bouth for backend and frontend
+
 ## Run the project
 
 For development I recomend to use the devstart.sh script:
@@ -84,7 +86,8 @@ I recommend before trying a pull request to build the docker to check if all is 
 - [ ] Refactor code
 - [ ] Improve easiness of adding new Notifications Methods (Mainly in the frontend side)
 - [ ] Add new notifications methods
-    - [ ] Discord (Webhook and Bot)
+    - [X] Discord (Webhook)
+    - [ ] Discord (Bot)
     - [ ] Telegram
     - [ ] ...
 
