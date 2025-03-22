@@ -1,4 +1,14 @@
 (
+    cd ./backend
+    pip install -r requirements.txt
+)
+
+(
+    cd ./auto-code-generator
+    python3 dataVerifier.py
+)
+
+(
     cd ./frontend
     pnpm install
     pnpm run build
@@ -10,6 +20,4 @@ cp -r ./frontend/dist ./backend/dist
 
 cd ./backend
 
-
-pip install -r requirements.txt
-python -m fastapi run main.py
+python3 -m fastapi main.py

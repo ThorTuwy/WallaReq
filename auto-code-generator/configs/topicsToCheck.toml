@@ -1,20 +1,24 @@
-[topic]
-
-[topic.enabled]
+#General Configurations arent inside of objects
+[enabled]
 type="checkbox"
 textLabel="Running"
-order=1
 
-[query]
+[name]
+type="text"
+textLabel="Name"
 
-[query.keywords]
+
+[querys]
+type="objectsArray"
+
+[querys.keywords]
 type="text"
 textLabel="Keywords"
 reqired=true
-order=1
 
 
-[query.order_by]
+
+[querys.order_by]
 type="select"
 textLabel="Order by"
 options = [ ["most_relevance","Most relevance"], 
@@ -22,34 +26,33 @@ options = [ ["most_relevance","Most relevance"],
             ["price_low_to_high","Lowest price"], 
             ["price_high_to_low","Highest price"] ] 
 reqired=true
-order=2
 
-[query.max_sale_price]
+
+[querys.max_sale_price]
 type="number"
 textLabel="Max sale price"
-order=3
 
-[query.min_sale_price]
+
+[querys.min_sale_price]
 type="number"
 textLabel="Min sale price"
-order=4
 
-[query.category_ids]
+
+[querys.category_ids]
 type="number"
 textLabel="Category IDs"
-order=5
 
-[query.latitude]
+
+[querys.latitude]
 type="number"
 textLabel="Latitude"
-order=6
 
-[query.longitude]
+[querys.longitude]
 type="number"
 textLabel="Longitude"
-order=7
 
-[query.condition]
+
+[querys.condition]
 type="select"
 textLabel="Condition"
 options = [ ["",""], 
@@ -58,17 +61,24 @@ options = [ ["",""],
             ["good","Good"], 
             ["fair","Fair"], 
             ["has_given_it_all","Has given it all"]] 
-order=8
 
-[query.is_shippable]
+[querys.is_shippable]
 type="checkbox"
 textLabel="Only products with shipping:"
-order=9
+
 
 #Notification Methods
 
-[ntfy]
+[notifications]
+
+[notifications.ntfy]
+
+[notifications.ntfy.channels]
 type="stringArray"
 textLabel="Channels:"
-order=1
 
+[notifications.discord]
+
+[notifications.discord.enabled_webhook]
+type="checkbox"
+textLabel="Send to Discord"

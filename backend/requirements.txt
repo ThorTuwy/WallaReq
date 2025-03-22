@@ -1,2 +1,3 @@
 fastapi[standard]
 requests
+datamodel-code-generator[http]

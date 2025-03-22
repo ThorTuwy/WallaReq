@@ -36,8 +36,11 @@ async function click(topicName: string){
   topicInfo["name"]=topicName;
 
   console.log("Topic info: "+topicInfo);
+  
+  setTopics(topicInfo);
+
   setTopicName(topicName);
-  setTopics(topicInfo)
+  
 };
 
 async function clickAddButton(){

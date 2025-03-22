@@ -1,6 +1,6 @@
 import { createResource } from "solid-js";
 
-import getConfig, { type configType }  from "../context/configsStore";
+import getConfig from "../context/configsStore";
 import useTopics from "../context/storageContext";
 
 import styles from '../css/App.module.css';
@@ -21,7 +21,7 @@ const [switchStatus,{refetch}] = createResource(startSwichFetch);
 async function clickConfig(){
   const response = await fetch(`/API/config`);
   
-  let topicInfo:configType = await response.json();
+  let topicInfo = await response.json();
 
   setConfig(topicInfo)
   setTopicName("CONFIG")

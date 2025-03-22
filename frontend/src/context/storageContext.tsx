@@ -1,27 +1,9 @@
 import { createSignal } from "solid-js";
 import { createStore } from "solid-js/store"
 
+import { TopicsToCheck } from "../auto-generated-types/topicsToCheck"
 
-export type query = {
-  keywords: string,
-  order_by: string,
-  is_shippable: boolean,
-  max_sale_price: number
-  min_sale_price: number
-  category_ids: number
-  latitude: number
-  longitude: number
-  condition: string
-}
-
-export type Topics = {
-  enabled: boolean,
-  name: string,
-  querys:query[]
-  ntfy: string[]
-}
-
-const [topics, setTopics] = createStore({} as Topics);
+const [topics, setTopics] = createStore({} as TopicsToCheck);
 const [topicNameSignal, setTopicName] = createSignal("")
 
 export default function getTopics() {

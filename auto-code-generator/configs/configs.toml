@@ -1,0 +1,25 @@
+[general]
+[general.sleepTime]
+type="number"
+textLabel="Sleep time (s)"
+defaultValue=500
+
+
+[notifications]
+
+
+[notifications.ntfy]
+
+[notifications.ntfy.domain]
+type="text"
+textLabel="Domain"
+
+[notifications.ntfy.token]
+type="text"
+textLabel="Token"
+
+[notifications.discord]
+
+[notifications.discord.webhook]
+type="text"
+textLabel="Webhook"
