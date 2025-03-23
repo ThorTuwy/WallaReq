@@ -216,7 +216,7 @@ export default function TopicInfo() {
                     return (
                       <>
                           <label for={id}>{keyTemplate["textLabel"]}</label>
-                          <TextInput id={id} topicName={""} onInput={handleInput} value={(topics as any)["notifications"][notification][key]} 
+                          <TextInput id={id} topicName={""} onInput={handleInput} value={(topics as any)["notifications"]!=undefined ? (topics as any)["notifications"][notification][key] : []} 
                           typeData={keyTemplate["type"]} required={keyTemplate["required"]} options={keyTemplate["options"]}/>
                       </>
                     )
