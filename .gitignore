@@ -8,7 +8,6 @@ backend/data/*
 
 test.py
 ./test
-auto-generated-types
 
 backend/dataTemplates/*
 !backend/dataTemplates/WARNING.md
