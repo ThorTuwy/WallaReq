@@ -45,19 +45,23 @@ def main():
         notificationMethods[name] = notificationManager(topic, configs)
 
     while True:
-        print(f"topicsToCheck: {topicsToCheck}")
+        try:
+            print(f"topicsToCheck: {topicsToCheck}")
 
-        for name, topic in topicsToCheck.items():
-            print(f"Checking topic: {name}")
-            for parameters in topic["querys"]:
-                print("Checking: ")
-                resaults = scrap.check(name, parameters)
-                notificationMethods[name].sendNotifications(resaults)
+            for name, topic in topicsToCheck.items():
+                print(f"Checking topic: {name}")
+                for parameters in topic["querys"]:
+                    print("Checking: ")
+                    resaults = scrap.check(name, parameters)
+                    notificationMethods[name].sendNotifications(resaults)
 
-            scrap.restartTopicTime(name)
-
+                scrap.restartTopicTime(name)
+        except Exception as e:
+            print(f"Error in this cycle: {e}")
+            
         currentSleepTime = sleepTime + random.randint(
             round(sleepTime * (10 / 100)), round(sleepTime * (20 / 100))
         )
         print(f"Cheking finish, now the program will wait: {currentSleepTime}s")
         time.sleep(currentSleepTime)
+        
