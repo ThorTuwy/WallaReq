@@ -12,8 +12,8 @@
   
   
   <div style="text-align: center;">
-    <img src="README_assets/wallareq_front.png" alt="Logo" width="512" height="512" style="display: inline-block; width: 450px; height: 250px;">
-    <img src="README_assets/Wallareq_discord.png" alt="Logo" width="512" height="512" style="display: inline-block; width: 300px; height: 250px;">
+    <img src="README_assets/wallareq_front.png" alt="Logo" width="512" height="512" style="display: inline-block; width: 450px; height: 255px;">
+    <img src="README_assets/Wallareq_discord.png" alt="Logo" width="512" height="512" style="display: inline-block; width: 300px; height: 255px;">
   </div>
 </div>
 
