@@ -19,7 +19,6 @@ TOML_topics = os.path.join("./configs", topicName + ".toml")
 
 
 def recursiveConfigsMaker(configs, new):
-    print(configs)
     if "type" in configs:
         if "defaultValue" in configs:
             new = configs["defaultValue"]
@@ -58,13 +57,10 @@ def makeConfig(file) -> dict:
 
     recursiveConfigsMaker(configs, configDic)
 
-    print(configDic)
-
     return configDic
 
 
 def verifyData():
-    print("Verifying data...")
     for dataName in ["configs", "topicsToCheck", "uploadAlready"]:
         dataFile = os.path.join(dataDirectory, dataName + ".json")
 
@@ -113,7 +109,6 @@ def recursiveConfigsParser(configs) -> None:
 
                 value = {"type": typeDict[valueType], "description": value["textLabel"]}
 
-                print(valueType)
                 if valueType == "stringArray":
                     value["items"] = {"type": "string"}
             else:
@@ -127,8 +122,6 @@ def recursiveConfigsParser(configs) -> None:
                 configs["properties"][index] = value
 
     else:
-        print(configs)
-        print(type(configs))
         raise ValueError("This is not intended to happen")
 
 
@@ -141,8 +134,6 @@ def updateModels(file, fileName):
         os.path.join(templatesDirectoryFront, f"template_{fileName}.json"), "w"
     ) as f:
         json.dump(configs, f)
-
-    print(configs)
 
     recursiveConfigsParser(configs)
 

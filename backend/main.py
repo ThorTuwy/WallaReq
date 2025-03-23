@@ -55,8 +55,6 @@ def recursiveJSONMerger(main, new, template):
                 main[key].append(recursiveJSONMerger({}, value[i], new_template))
 
         elif not value:
-            print(main)
-            print(key)
             main[key] = new_template
         else:
             main[key] = value
@@ -238,7 +236,6 @@ def reset_uploadAlready(topicName: str):
     with open("./data/uploadAlready.json") as f:
         topics = json.load(f)
 
-    print(topicName)
     del topics[topicName]
 
     with open("./data/uploadAlready.json", "w") as f:

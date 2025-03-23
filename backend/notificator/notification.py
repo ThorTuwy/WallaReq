@@ -5,8 +5,6 @@ import requests
 class notificationManager:
     # Here we parse the topic and configs to get the notification methods
     def __init__(self, topic, configs):
-        print(topic)
-        print(configs)
         noti_topic = topic["notifications"]
         noti_config = configs["notifications"]
 
@@ -88,9 +86,6 @@ class notificationManager:
                     # El mensaje que quieres enviar
                     "username": "Wallareq",  # Nombre del bot que aparecerá en Discord
                 }
-                print("Discord:")
-                print(self.discord["webhook"])
-                print(webhook_mes)
                 requests.post(self.discord["webhook"], json=webhook_mes)
 
 

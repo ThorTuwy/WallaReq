@@ -55,8 +55,6 @@ def check(topicName, parameters):
 
         resaults.append((title, description, price, link_producto, imageSrc))
 
-    print("resaults:")
-    print(len(resaults))
     return resaults
 
 
