@@ -10,7 +10,7 @@ import Plus from 'lucide-solid/icons/plus';
 
 import { formToApiJson } from "../utils/formDataPaser";
 
-import TopicsToCheck from "../auto-generated-types/topicsToCheck";
+import { TopicsToCheck } from "../auto-generated-types/topicsToCheck"
 
 import template_topics from "../templates/template_topicsToCheck.json";
 
@@ -53,6 +53,15 @@ function removeQueryElement(queryName:string|undefined) {
 
 function handleInput(currentTarget:HTMLInputElement|HTMLSelectElement,topicName:false|string){
    
+}
+
+//This is used, for the name changing in h2 reactive to the input
+function handleInputName(currentTarget:HTMLInputElement|HTMLSelectElement,topicName:false|string){
+  const elementId = currentTarget.id;
+
+  let changeData:string=currentTarget.value;
+
+  setTopics(elementId as keyof TopicsToCheck,changeData);
 }
 
 async function deleteTopic(){
@@ -134,7 +143,7 @@ export default function TopicInfo() {
        
 
       <label for="Name">Name: </label>
-      <TextInput id="name" topicName={false} onInput={handleInput} value={topics.name} typeData="text" required={true}/>
+      <TextInput id="name" topicName={false} onInput={handleInputName} value={topics.name} typeData="text" required={true}/>
       <br/>
 
       
