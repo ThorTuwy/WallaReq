@@ -68,16 +68,16 @@ for config in configs:
 
 
 # 1º Write the empty configs as files
-def writeEmptyConfigs(fileName, configs):
+def writeEmptyConfigs(fileName, emptyConfig):
     for i in range(len(configsFileName)):
         with open(
             os.path.join(templatesDirectoryBack, f"template_{fileName}.json"), "w"
         ) as f:
-            json.dump(configs, f, indent=4)
+            json.dump(emptyConfig, f, indent=4)
 
 
 for i in range(len(configsFileName)):
-    writeEmptyConfigs(configsFileName[i], configs[i])
+    writeEmptyConfigs(configsFileName[i], emptyConfigs[i])
 
 
 # 2º Check if the actual configs files are valid
@@ -91,7 +91,7 @@ def verifyData(fileName):
     except Exception:
         toDump = {}
         if dataName == "configs":
-            toDump = emptyConfigs["configs"]
+            toDump = emptyConfigs[0] #TODO Remove order matters
         with open(file, "w") as f:
             json.dump(toDump, f, indent=4)
 
@@ -187,15 +187,15 @@ for i in range(len(configsFileName)):
 
 
 # 1º Copy configs as JSON
-def copyConfigsAsJSON(fileName):
+def copyConfigsAsJSON(fileName,config):
     with open(
         os.path.join(templatesDirectoryFront, f"template_{fileName}.json"), "w"
     ) as f:
-        json.dump(configs, f, indent=4)
+        json.dump(config, f, indent=4)
 
 
 for i in range(len(configsFileName)):
-    copyConfigsAsJSON(configsFileName[i])
+    copyConfigsAsJSON(configsFileName[i],configs[i])
 
 
 # 2º Copy jsonSchemas as JSON
