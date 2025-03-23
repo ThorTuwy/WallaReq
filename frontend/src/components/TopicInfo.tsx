@@ -35,13 +35,15 @@ function newQueryElement() {
 
 function removeQueryElement(queryName:string|undefined) {
   if(queryName==null){
-    console.error('Query not found');
+    console.error('Not query name');
     return null
   }
   const indice = topics["querys"]?.findIndex(item => item["keywords"] === queryName);
-  if(!indice) {
+  if(indice==-1 || indice==undefined){
+    console.log(queryName);
+    console.log(topics);
     console.error('Query not found');
-     return null
+    return null
   }
   setTopics(
     "querys",
