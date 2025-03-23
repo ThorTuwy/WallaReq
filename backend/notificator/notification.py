@@ -42,6 +42,7 @@ class notificationManager:
 
     # Using the resault data and parse notifications send the notifications imself
     def sendNotifications(self, resaults):
+        print("Number of resaults: ", len(resaults))
         for data in resaults:
             title, description, price, link_producto, imageSrc = data
 
@@ -87,7 +88,3 @@ class notificationManager:
                     "username": "Wallareq",  # Nombre del bot que aparecerá en Discord
                 }
                 requests.post(self.discord["webhook"], json=webhook_mes)
-
-
-# if __name__ == "__main__":
-#   ntfySendPush(("test","test","-1","https://ntfy.tuwy.win/test","https://www.adams.es/blogs/alumno/examen-tipo-test-las-mejores-tecnicas-para-superarlo-con-exito/"),[{"ntfyURL":"https://ntfy.tuwy.win/test","ntfyToken":"***REMOVED***"}])
