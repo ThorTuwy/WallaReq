@@ -3,6 +3,10 @@
     pip install -r requirements.txt
 )
 
+(
+    cd ./frontend
+    pnpm install
+)
 
 (
     cd ./auto-code-generator
@@ -11,7 +15,6 @@
 
 (
     cd ./frontend
-    pnpm install
     pnpm run build --mode development
 )
 
