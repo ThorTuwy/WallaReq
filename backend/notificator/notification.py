@@ -65,26 +65,15 @@ class notificationManager:
                     "embeds": [
                         {
                             "title": f"{price} € | {title}",
+                            "url": f"{link_producto}",
                             "description": f"{description}",
                             "color": 5814783,
                             "fields": [],
                             "image": {"url": f"{imageSrc}"},
                         }
                     ],
-                    "components": [
-                        {
-                            "type": 1,
-                            "components": [
-                                {
-                                    "type": 2,
-                                    "style": 5,
-                                    "label": "Enlace Wallapop",
-                                    "url": f"{link_producto}",
-                                }
-                            ],
-                        }
-                    ],
                     # El mensaje que quieres enviar
                     "username": "Wallareq",  # Nombre del bot que aparecerá en Discord
                 }
+                print("webhook_mes: ", webhook_mes)
                 requests.post(self.discord["webhook"], json=webhook_mes)

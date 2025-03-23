@@ -31,8 +31,8 @@ def queryApi(parameters):
 
     conn.request("GET", url, payload, headers)
     res = conn.getresponse()
+    print("res:",res.status, res.reason)
     data = res.read()
-
     return json.loads(data.decode("utf-8"))["data"]["section"]["payload"]["items"]
 
 
@@ -63,3 +63,4 @@ def restartTopicTime(topicName):
 
     with open("./data/uploadAlready.json", "w") as f:
         json.dump(uploadAlready, f)
+
